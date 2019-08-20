@@ -8,6 +8,7 @@
   "dependencies": {
     "hexo": "^3.9.0",
     "hexo-admin": "^2.3.0",
+    "hexo-admin-cn": "^2.1.0",
     "hexo-blog-encrypt": "^2.2.2",
     "hexo-deployer-git": "^0.3.1",
     "hexo-fs": "^1.0.2",

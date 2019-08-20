@@ -106,3 +106,10 @@ admin:
   password_hash: $2a$10$P17fNaJmLr7KJNfQCxvCTOHcAbd0OPDAZZYawXqlq16CsCAB8mY8q
   secret: my super secret phrase
   deployCommand: 'hexo-deploy.bat'
+server:
+  port: 8080
+  compress: true
+  header: true
+
+metadata:
+  password: 
