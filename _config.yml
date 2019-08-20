@@ -100,3 +100,9 @@ encrypt:
         <div id="encrypt-blog" style="display:none">
         {{content}}
         </div>
+# hexo-admin authentification
+admin:
+  username: vivian
+  password_hash: $2a$10$P17fNaJmLr7KJNfQCxvCTOHcAbd0OPDAZZYawXqlq16CsCAB8mY8q
+  secret: my super secret phrase
+  deployCommand: 'hexo-deploy.bat'
