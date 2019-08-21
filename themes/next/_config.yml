@@ -651,7 +651,11 @@ valine:
   appkey: haWI8J9hboMsy0Yz4TtrbcFn
   notify: false # Mail notifier. See: https://github.com/xCss/Valine/wiki
   verify: false # Verification code
+<<<<<<< HEAD
   placeholder: #说点什么把？也就那么一回事
+=======
+  placeholder: 说点什么把？反正也就那么一回事
+>>>>>>> 777529ba1c97ae9604557f92c99a9d0dffa14be7
   avatar: mm # Gravatar style
   guest_info: nick,mail,link # Custom comment header
   pageSize: 10 # Pagination size
