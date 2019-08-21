@@ -1,14 +1,21 @@
 .site-author-image {
-  border: $site-author-image-border-width solid $site-author-image-border-color;
   display: block;
-  height: $site-author-image-height;
   margin: 0 auto;
-  max-width: $site-author-image-width;
   padding: $site-author-image-padding;
-
-  if (hexo-config('avatar.rounded')) {
-    border-radius: 50%;
-  }
+  max-width: $site-author-image-width;
+  height: $site-author-image-height;
+  border: $site-author-image-border-width solid $site-author-image-border-color;
+  opacity: hexo-config('avatar.opacity') is a 'unit' ? hexo-config('avatar.opacity') : 1;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  transition: 1.4s all;
+}
+.site-author-image:hover {
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -transform: rotate(360deg);
 }
 
 if (hexo-config('avatar.rotated')) {

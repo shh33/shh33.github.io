@@ -202,16 +202,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
       sidebarToggleLines.init();
       NexT.utils.isDesktop() && $('body').stop().animate(isRight ? {'padding-right': 0} : {'padding-left': 0});
-
-      // Prevent adding TOC to Overview if Overview was selected when close & open sidebar.
-      var tocWrap = document.querySelector('.post-toc-wrap');
-      if (tocWrap) {
-        if ($('.site-overview-wrap').css('display') === 'block') {
-          tocWrap.classList.remove('motion-element');
-        } else {
-          tocWrap.classList.add('motion-element');
-        }
-      }
     }
   };
   sidebarToggleMotion.init();
@@ -223,9 +213,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (containerHeight < window.innerHeight) {
       footer.css({
         'position': 'fixed',
-        'bottom': 0,
-        'left': 0,
-        'right': 0
+        'bottom'  : 0,
+        'left'    : 0,
+        'right'   : 0
       }).setAttribute('position', 'fixed');
     } else {
       footer.removeAttribute('position');

@@ -48,6 +48,14 @@
 
         <div class="post-meta">
 
+          {% if post.top %}
+          <span style="font-size: 0.75em;">
+            <i class="fa fa-thumb-tack"></i>
+            <font color=ff6800>置顶</font>
+            <span class="post-meta-divider">|</span>
+          </span>
+          {% endif %}
+
           {%- set date_diff = date(post.date) != date(post.updated) %}
           {%- set time_diff = time(post.date) != time(post.updated) %}
           {%- set datetime_diff = date_diff or time_diff %}
@@ -256,10 +264,10 @@
       {%- endif %}
 
       <div>
-  		{% if not is_index %}
-    		{% include 'passage-end-tag.swig' %}
-  		{% endif %}
-	  </div>
+      {% if not is_index %}
+      {% include 'passage-end-tag.swig' %}
+      {% endif %}
+      </div>
 
       <footer class="post-footer">
         {%- if post.tags and post.tags.length %}
@@ -270,7 +278,7 @@
           {%- endif %}
           <div class="post-tags">
             {%- for tag in post.tags %}
-              <a href="{{ url_for(tag.path) }}" rel="tag">{{ tag_indicate }} {{ tag.name }}</a>
+              <a href="{{ url_for(tag.path) }}">{{ tag_indicate }} {{ tag.name }}</a>
             {%- endfor %}
           </div>
         {%- endif %}

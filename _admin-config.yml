@@ -1,9 +1,3 @@
 options:
-  lineNumbers: false
-  spellcheck: false
-  overwriteImages: true
   imagePath: /images
-editor:
-  lineNumbers: false
-  inputStyle: contenteditable
-  spellcheck: false
+  imagePrefix: vivian-

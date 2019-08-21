@@ -1,6 +1,15 @@
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">
-  
+<div class="copyright" style="text-align:center">{#
+#}{%- set current = date(Date.now(), "YYYY") %}{#
+#}{%- if theme.footer.beian.enable %}{#
+#}  {{ next_url('http://www.beian.miit.gov.cn', theme.footer.beian.icp + ' ') }}{#
+#}{%- endif %}{#
+#}&copy; {% if theme.footer.since and theme.footer.since != current %}{{ theme.footer.since }} – {% endif %}{#
+#}<span itemprop="copyrightYear">{{ current }}</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-{{ theme.footer.icon.name }}"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright || author }}</span>
+
   {%- if config.symbols_count_time.total_symbols %}
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
@@ -26,16 +35,29 @@
     #}{{ symbolsTimeTotal(site, theme.symbols_count_time.awl, theme.symbols_count_time.wpm, __('symbols_count_time.time_minutes')) }}{#
   #}</span>
   {%- endif %}
-
-  <div class="powered-by">
-	  <span id="busuanzi_container_site_uv">
-  	   访客数:<span id="busuanzi_value_site_uv"></span>
-	  </span>
-  </div>
-  <div class="theme-info">
-    <div class="powered-by"></div>
-    <span class="post-count">全站共{{ totalcount(site) }}字</span>
-  </div>
 </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="text-align:center">
+	  <span id="busuanzi_container_site_uv">Total visited <span id="busuanzi_value_site_uv"></span> times</span>
+</div>
+
+{%- if theme.footer.powered.enable %}
+  <div class="powered-by">{#
+  #}{{ __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'})) }}{#
+  #}{%- if theme.footer.powered.version %} v{{ hexo_env('version') }}{%- endif %}{#
+ #}</div>
+{%- endif %}
+
+{%- if theme.footer.powered.enable and theme.footer.theme.enable %}
+  <span class="post-meta-divider">|</span>
+{%- endif %}
+
+{%- if theme.footer.theme.enable %}
+  <div class="theme-info">{#
+  #}{{ __('footer.theme') }} – {{ next_url('https://theme-next.org', 'NexT.' + theme.scheme, {class: 'theme-link'}) }}{#
+  #}{%- if theme.footer.theme.version %} v{{ version }}{%- endif %}{#
+#}</div>
+{%- endif %}
 
 {{- next_inject('footer') }}
