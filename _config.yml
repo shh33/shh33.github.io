@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: vivian&shh33
+title: shh33
 subtitle:
 description:
 keywords:
@@ -119,7 +119,7 @@ admin:
   deployCommand: 'hexo-deploy.bat'
 #添加密码字段
 metadata:
-  password: 
+  password:
   top:
 
 #指定端口号访问
