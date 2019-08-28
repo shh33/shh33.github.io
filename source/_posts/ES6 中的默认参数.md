@@ -1,10 +1,12 @@
----
-title: ES6 中的默认参数
+title: ES6中的默认参数
 author: shh33
-date: 2019-08-28 16:59:27
 categories:
-password:
+  - ES6
 typora-root-url: ..
+tags:
+  - 默认参数
+date: 2019-08-28 16:59:00
+password:
 top:
 ---
 # ES5 ES3 默认参数的写法

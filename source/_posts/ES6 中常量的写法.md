@@ -1,8 +1,10 @@
----
-title: ES6 的常量写法
+title: ES6中的常量写法
 author: shh33
-date: 2019-08-28 16:59:27
-categories:ES6
+categories:
+  - ES6
+tags:
+  - 常量写法
+date: 2019-08-28 16:59:00
 password:
 top:
 ---

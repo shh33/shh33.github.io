@@ -1,10 +1,12 @@
----
-title: ES6 中的作用域
+title: ES6中的作用域
 author: shh33
-date: 2019-08-28 16:59:27
 categories:
-password:
+  - ES6
 typora-root-url: ..
+tags:
+  - 作用域
+date: 2019-08-28 16:59:00
+password:
 top:
 ---
 

@@ -1,10 +1,12 @@
----
-title: ES6 的箭头函数
+title: ES6中的箭头函数
 author: shh33
-date: 2019-08-28 16:59:27
 categories:
-password:
+  - ES6
 typora-root-url: ..
+tags:
+  - 箭头函数
+date: 2019-08-28 16:59:00
+password:
 top:
 ---
 # ES3,ES5

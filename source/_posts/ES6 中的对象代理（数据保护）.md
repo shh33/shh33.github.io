@@ -1,10 +1,13 @@
----
 title: ES6中的代理对象
 author: shh33
-date: 2019-08-28 16:59:27
 categories:
-password:
+  - ES6
 typora-root-url: ..
+tags:
+  - 数据保护
+  - 代理对象
+date: 2019-08-28 16:59:00
+password:
 top:
 ---
 
