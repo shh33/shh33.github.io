@@ -1,9 +1,9 @@
 ---
-title: {{ title }}
-date: {{ date }}
-tags:
-categories:
-password:
-top:
-typora-root-url: ..
+ title: {{ title }}
+ date: {{ date }}
+ tags:
+ categories:
+ password:
+ top:
+ typora-root-url: ..
 ---

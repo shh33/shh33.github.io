@@ -81,7 +81,7 @@ deploy:
   type: git
   repository: git@github.com:shh33/shh33.github.io.git
   branch: master
-#搜索配置 路径 字段(仅涵盖您博客的所有帖子) 格式  是否包含每篇文章的全部内容
+#搜索配置 路径 字段(仅涵盖您博客的所有帖子) 是否包含每篇文章的全部内容
 #https://github.com/wzpan/hexo-generator-search 官方文档
 search:
   path: search.xml
