@@ -1,3 +1,4 @@
+---
 title: ES6中的箭头函数
 author: shh33
 categories:

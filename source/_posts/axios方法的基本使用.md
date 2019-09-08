@@ -1,16 +1,16 @@
 ---
- title: axios的使用方法
- author: shh33
- tags:
+title: axios方法的基本使用
+typora-root-url: ..
+author: shh33
+tags:
   - ajax
   - axios
- categories:
+categories:
   - axios
-  - ajax
- date: 2019-08-29 13:50:00
- password:
- top:
- typora-root-url: ..
+
+date: 2019-08-29 13:50:00
+password:
+top:
 ---
 
 # axios请求方法
@@ -23,7 +23,11 @@
 
 ### 具体由后端定义
 
-### 1.get方法的使用
+### 1.get方法的使用(2个参数)
+
+```
+axios.get('url',config)
+```
 
 ```javascript
  created() {
@@ -186,3 +190,19 @@ axios({
 ```
 
 ![1567324422875](/images/1567324422875.png)
+
+### // axios.all() axios.spread()
+
+### // 并发请求:同时进行多个请求，并统一处理返回值
+
+```javascript
+axios.all([
+      axios.get('/data.json'),
+      axios.get('/city.json')
+    ]).then(
+      axios.spread((dataRes,cityRes)=>{
+        console.log(dataRes,cityRes)
+      })
+    )
+  }
+```

@@ -1,3 +1,4 @@
+---
 title: ES6中的代理对象
 author: shh33
 categories:

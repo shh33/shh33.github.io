@@ -1,3 +1,4 @@
+---
 title: ES6中的常量写法
 author: shh33
 categories:

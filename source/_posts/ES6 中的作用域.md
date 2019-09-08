@@ -1,3 +1,4 @@
+---
 title: ES6中的作用域
 author: shh33
 categories:
