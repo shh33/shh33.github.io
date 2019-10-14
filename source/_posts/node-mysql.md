@@ -1,3 +1,4 @@
+---
 title: Node+mysql
 typora-root-url: ..
 tags:

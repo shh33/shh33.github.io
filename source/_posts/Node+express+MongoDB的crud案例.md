@@ -1,8 +1,8 @@
+---
 title: Node+express+MongoDB的crud案例
 typora-root-url: ..
 tags:
   - MongoDB
-  - ''
   - Node
   - Express
 categories:
@@ -61,12 +61,17 @@ top:
 
 5. art-template要点
 
-   > 模板配置（默认约定文件在views目录）
-   > app.engine('html', require('express-art-template'))
+   - 模板配置（默认约定文件在views目录）
+   
+> ```javascript
+   > app.engine('html', require('express-art-template')) 
+   > 
+   > app.set('views',path.join(__dirname,'./views/')) //若要修改
+   > ```
 
    > 渲染页面
    >
-   > ```
+   > ```javascript
    > router.get('/students', function (req, res) {
    > 
    > 	res.render('new.html')
@@ -75,11 +80,10 @@ top:
    > ```
    >
    > 重定向
->
+   >
    > ```
    > res.redirect('/students')
    > ```
-   
    > 循环语法
    >
    > ```

@@ -1,11 +1,10 @@
+---
 title: Node核心模块
 typora-root-url: ..
 tags:
   - Node核心模块
-  - ''
 categories:
   - Node
-  - ''
 date: 2019-09-02 15:08:00
 password:
 top:
@@ -71,6 +70,59 @@ top:
   + 通过网络发送文件
     * 发送的并不是文件，本质上来讲发送是文件的内容
     * 当浏览器收到服务器响应内容之后，就会根据你的 Content-Type 进行对应的解析处理
+
+### Node中的其他成员  __dirname 和  __filename
+
+每个模块中除了require、exports 还有俩个特殊成员
+
+- __dirname 可以用来获取当前文件模块所属目录的绝对路径
+- __filename 可以用来获取当前文件的绝对路径
+
+
+
+- ### 所有的文件操作都使用动态的绝对路径 path.join(__dirname, 'public')
+
+- ### 模块中的路径不影响
+
+### path模块
+
+```
+var path = require('path')
+```
+
+[官方文档](https://nodejs.org/dist/latest-v12.x/docs/api/path.html)
+
+path.basename
+
+- 获取一个路径的文件名（包含扩展名）
+
+path.dirname(path)
+
+- 获取一个路径中的目录部分
+
+path.extname(path
+
+- 获取一个路径中的扩展名部分
+
+path.isAbsolute
+
+- 判断一个路径是否是绝对路径
+
+path.join
+
+- 拼接路径
+
+path.parse
+
+- 获取一个路径中的转化为对象
+
+- ```js
+  // { root: '/',
+  //   dir: '/home/user/dir',
+  //   base: 'file.txt',
+  //   ext: '.txt',
+  //   name: 'file' }
+  ```
 
 ### fs 文件操作模块
 

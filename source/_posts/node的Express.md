@@ -1,3 +1,4 @@
+---
 title: Node之Express框架
 typora-root-url: ..
 tags:
@@ -114,6 +115,7 @@ app.get('/',function(req,res){
 
 ```javascript
 app.set('views', 要设置的默认路径)
+app.set('views',path.join(__dirname,'./views/'))
 ```
 
 ### 重定向

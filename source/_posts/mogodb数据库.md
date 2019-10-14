@@ -1,3 +1,4 @@
+---
 title: MogoDB数据库
 typora-root-url: ..
 tags:
