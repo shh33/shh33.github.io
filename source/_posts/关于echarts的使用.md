@@ -95,172 +95,171 @@ title: {
 
 ```javascript
 legend: {
- 2         orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
- 3                                    // 'horizontal' ¦ 'vertical'
- 4         x: 'center',               // 水平安放位置，默认为全图居中，可选为：
- 5                                    // 'center' ¦ 'left' ¦ 'right'
- 6                                    // ¦ {number}（x坐标，单位px）
- 7         y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
- 8                                    // 'top' ¦ 'bottom' ¦ 'center'
- 9                                    // ¦ {number}（y坐标，单位px）
-10         backgroundColor: 'rgba(0,0,0,0)',
-11         borderColor: '#ccc',       // 图例边框颜色
-12         borderWidth: 0,            // 图例边框线宽，单位px，默认为0（无边框）
-13         padding: 5,                // 图例内边距，单位px，默认各方向内边距为5，
-14                                    // 接受数组分别设定上右下左边距，同css
-15         itemGap: 10,               // 各个item之间的间隔，单位px，默认为10，
-16                                    // 横向布局时为水平间隔，纵向布局时为纵向间隔
-17         itemWidth: 20,             // 图例图形宽度
-18         itemHeight: 14,            // 图例图形高度
-19         textStyle: {
-20             color: '#333'          // 图例文字颜色
-21         }
-22     },
+          orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
+                                     // 'horizontal' ¦ 'vertical'
+          x: 'center',               // 水平安放位置，默认为全图居中，可选为：
+                                     // 'center' ¦ 'left' ¦ 'right'
+                                     // ¦ {number}（x坐标，单位px）
+          y: 'top',                  // 垂直安放位置，默认为全图顶端，可选为：
+                                     // 'top' ¦ 'bottom' ¦ 'center'
+                                     // ¦ {number}（y坐标，单位px）
+         backgroundColor: 'rgba(0,0,0,0)',
+         borderColor: '#ccc',       // 图例边框颜色
+         borderWidth: 0,            // 图例边框线宽，单位px，默认为0（无边框）
+         padding: 5,                // 图例内边距单位px，默认各方向内边距为5，
+                                    // 接受数组分别设定上右下左边距，同css
+         itemGap: 10,               // 各个item之间的间隔，单位px，默认为10，
+                                    // 横向布局时为水平间隔，纵向布局时为纵向间隔
+         itemWidth: 20,             // 图例图形宽度
+         itemHeight: 14,            // 图例图形高度
+         textStyle: {
+             color: '#333'          // 图例文字颜色
+         }
+     },
 ```
 
 ### Axis 分为category和value
 
 ```javascript
 categoryAxis: {
- 2         position: 'bottom',    // 位置
- 3         nameLocation: 'end',   // 坐标轴名字位置，支持'start' | 'end'
- 4         boundaryGap: true,     // 类目起始和结束两端空白策略
- 5         axisLine: {            // 坐标轴线
- 6             show: true,        // 默认显示，属性show控制显示与否
- 7             lineStyle: {       // 属性lineStyle控制线条样式
- 8                 color: '#48b',
- 9                 width: 2,      //设置为0也是不现在坐标线
-10                 type: 'solid'
-11             }
-12         },
-13         axisTick: {            // 坐标轴小标记
-14             show: true,       // 属性show控制显示与否，默认不显示
-15             interval: 'auto',
-16             // onGap: null,
-17             inside : false,    // 控制小标记是否在grid里 
-18             length :5,         // 属性length控制线长
-19             lineStyle: {       // 属性lineStyle控制线条样式
-20                 color: '#333',
-21                 width: 1
-22             }
-23         },
-24         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-25             show: true,
-26             interval: 'auto',
-27             rotate: 0,
-28             margin: 8,
-29             // formatter: null,
-30             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-31                 color: '#333'
-32             }
-33         },
-34         splitLine: {           // 分隔线
-35             show: true,        // 默认显示，属性show控制显示与否
-36             // onGap: null,
-37             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-38                 color: ['#ccc'],
-39                 width: 1,
-40                 type: 'solid'
-41             }
-42         },
-43         splitArea: {           // 分隔区域
-44             show: false,       // 默认不显示，属性show控制显示与否
-45             // onGap: null,
-46             areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
-47                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
-48             }
-49         }
-50     },
+          position: 'bottom',    // 位置
+          nameLocation: 'end',   // 坐标轴名字位置，支持'start' | 'end'
+          boundaryGap: true,     // 类目起始和结束两端空白策略
+          axisLine: {            // 坐标轴线
+              show: true,        // 默认显示，属性show控制显示与否
+              lineStyle: {       // 属性lineStyle控制线条样式
+                  color: '#48b',
+                  width: 2,      //设置为0也是不现在坐标线
+                 type: 'solid'
+             }
+         },         axisTick: {            // 坐标轴小标记
+             show: true,       // 属性show控制显示与否，默认不显示
+             interval: 'auto',
+             // onGap: null,
+             inside : false,    // 控制小标记是否在grid里 
+             length :5,         // 属性length控制线长
+             lineStyle: {       // 属性lineStyle控制线条样式
+                 color: '#333',
+                 width: 1
+             }
+         },
+         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+             show: true,
+             interval: 'auto',
+             rotate: 0,
+             margin: 8,
+             // formatter: null,
+             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                 color: '#333'
+             }
+         },
+         splitLine: {           // 分隔线
+             show: true,        // 默认显示，属性show控制显示与否
+             // onGap: null,
+             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                 color: ['#ccc'],
+                 width: 1,
+                 type: 'solid'
+             }
+         },
+         splitArea: {           // 分隔区域
+             show: false,       // 默认不显示，属性show控制显示与否
+             // onGap: null,
+             areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
+                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+             }
+         }
+     },
 ```
 
 ```javascript
 valueAxis: {
- 2         position: 'left',      // 位置
- 3         nameLocation: 'end',   // 坐标轴名字位置，支持'start' | 'end'
- 4         nameTextStyle: {},     // 坐标轴文字样式，默认取全局样式
- 5         boundaryGap: [0, 0],   // 数值起始和结束两端空白策略
- 6         splitNumber: 5,        // 分割段数，默认为5
- 7         axisLine: {            // 坐标轴线
- 8             show: true,        // 默认显示，属性show控制显示与否
- 9             lineStyle: {       // 属性lineStyle控制线条样式
-10                 color: '#48b',
-11                 width: 2,
-12                 type: 'solid'
-13             }
-14         },
-15         axisTick: {            // 坐标轴小标记
-16             show: false,       // 属性show控制显示与否，默认不显示
-17             inside : false,    // 控制小标记是否在grid里 
-18             length :5,         // 属性length控制线长
-19             lineStyle: {       // 属性lineStyle控制线条样式
-20                 color: '#333',
-21                 width: 1
-22             }
-23         },
-24         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-25             show: true,
-26             rotate: 0,
-27             margin: 8,
-28             // formatter: null,
-29             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-30                 color: '#333'
-31             }
-32         },
-33         splitLine: {           // 分隔线
-34             show: true,        // 默认显示，属性show控制显示与否
-35             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-36                 color: ['#ccc'],
-37                 width: 1,
-38                 type: 'solid'
-39             }
-40         },
-41         splitArea: {           // 分隔区域
-42             show: false,       // 默认不显示，属性show控制显示与否
-43             areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
-44                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
-45             }
-46         }
-47     },
-48 
-49     polar : {
-50         center : ['50%', '50%'],    // 默认全局居中
-51         radius : '75%',
-52         startAngle : 90,
-53         splitNumber : 5,
-54         name : {
-55             show: true,
-56             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-57                 color: '#333'
-58             }
-59         },
-60         axisLine: {            // 坐标轴线
-61             show: true,        // 默认显示，属性show控制显示与否
-62             lineStyle: {       // 属性lineStyle控制线条样式
-63                 color: '#ccc',
-64                 width: 1,
-65                 type: 'solid'
-66             }
-67         },
-68         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-69             show: false,
-70             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-71                 color: '#333'
-72             }
-73         },
-74         splitArea : {
-75             show : true,
-76             areaStyle : {
-77                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
-78             }
-79         },
-80         splitLine : {
-81             show : true,
-82             lineStyle : {
-83                 width : 1,
-84                 color : '#ccc'
-85             }
-86         }
-87     }
+          position: 'left',      // 位置
+          nameLocation: 'end',   // 坐标轴名字位置，支持'start' | 'end'
+          nameTextStyle: {},     // 坐标轴文字样式，默认取全局样式
+          boundaryGap: [0, 0],   // 数值起始和结束两端空白策略
+          splitNumber: 5,        // 分割段数，默认为5
+          axisLine: {            // 坐标轴线
+              show: true,        // 默认显示，属性show控制显示与否
+              lineStyle: {       // 属性lineStyle控制线条样式
+                 color: '#48b',
+                 width: 2,
+                 type: 'solid'
+             }
+         },
+         axisTick: {            // 坐标轴小标记
+             show: false,       // 属性show控制显示与否，默认不显示
+             inside : false,    // 控制小标记是否在grid里 
+             length :5,         // 属性length控制线长
+             lineStyle: {       // 属性lineStyle控制线条样式
+                 color: '#333',
+                 width: 1
+             }
+         },
+         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+             show: true,
+             rotate: 0,
+             margin: 8,
+             // formatter: null,
+             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                 color: '#333'
+             }
+         },
+         splitLine: {           // 分隔线
+             show: true,        // 默认显示，属性show控制显示与否
+             lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                 color: ['#ccc'],
+                 width: 1,
+                 type: 'solid'
+             }
+         },
+         splitArea: {           // 分隔区域
+             show: false,       // 默认不显示，属性show控制显示与否
+             areaStyle: {       // 属性areaStyle（详见areaStyle）控制区域样式
+                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+             }
+         }
+     },
+
+     polar : {
+         center : ['50%', '50%'],    // 默认全局居中
+         radius : '75%',
+         startAngle : 90,
+         splitNumber : 5,
+         name : {
+             show: true,
+             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                 color: '#333'
+            }
+         },
+         axisLine: {            // 坐标轴线
+             show: true,        // 默认显示，属性show控制显示与否
+             lineStyle: {       // 属性lineStyle控制线条样式
+                 color: '#ccc',
+                 width: 1, 
+                 type: 'solid'
+             }
+         },
+         axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+             show: false,
+             textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                 color: '#333'
+             }
+         },
+         splitArea : {
+             show : true,
+             areaStyle : {
+                 color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']
+             }
+         },
+         splitLine : {
+             show : true,
+             lineStyle : {
+                 width : 1,
+                 color : '#ccc'
+             }
+         }
+     }
 ```
 
 
