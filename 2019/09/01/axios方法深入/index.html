@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/yaya48.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/yaya.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yaya16.ico?v=7.3.0">
+  <link rel="mask-icon" href="/images/yaya48.ico?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="axios实例配置config基本内容1234567891011axios.create(&amp;#123;      baseURL:&apos;http://localhost:8080&apos;,      timeout:1000,//请求超时时长（ms）      url:&apos;/data.json&apos;,//请求路径      method:&apos;get&apos;, //请求方法post、put、patch、delete">
+<meta name="keywords" content="axios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="axios方法深入">
+<meta property="og:url" content="https://shh33.github.io/2019/09/01/axios方法深入/index.html">
+<meta property="og:site_name" content="shh33">
+<meta property="og:description" content="axios实例配置config基本内容1234567891011axios.create(&amp;#123;      baseURL:&apos;http://localhost:8080&apos;,      timeout:1000,//请求超时时长（ms）      url:&apos;/data.json&apos;,//请求路径      method:&apos;get&apos;, //请求方法post、put、patch、delete">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-23T08:04:39.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="axios方法深入">
+<meta name="twitter:description" content="axios实例配置config基本内容1234567891011axios.create(&amp;#123;      baseURL:&apos;http://localhost:8080&apos;,      timeout:1000,//请求超时时长（ms）      url:&apos;/data.json&apos;,//请求路径      method:&apos;get&apos;, //请求方法post、put、patch、delete">
+  <link rel="canonical" href="https://shh33.github.io/2019/09/01/axios方法深入/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>axios方法深入 | shh33</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">shh33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>时间轴</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+
+  <div class="post-block" 
+  style="
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:50px 20px 70px 20px;
+    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
+  >
+
+    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/01/axios方法深入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shh33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cc.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="shh33">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">axios方法深入
+
+          
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-01 16:28:00" itemprop="dateCreated datePublished" datetime="2019-09-01T16:28:00+08:00">2019-09-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/axios/" itemprop="url" rel="index"><span itemprop="name">axios</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="axios实例配置"><a href="#axios实例配置" class="headerlink" title="axios实例配置"></a>axios实例配置</h1><h4 id="config基本内容"><a href="#config基本内容" class="headerlink" title="config基本内容"></a>config基本内容</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.create(&#123;</span><br><span class="line">      baseURL:<span class="string">'http://localhost:8080'</span>,</span><br><span class="line">      timeout:<span class="number">1000</span>,<span class="comment">//请求超时时长（ms）</span></span><br><span class="line">      url:<span class="string">'/data.json'</span>,<span class="comment">//请求路径</span></span><br><span class="line">      method:<span class="string">'get'</span>, <span class="comment">//请求方法post、put、patch、delete</span></span><br><span class="line">      headers: &#123;</span><br><span class="line">        token: <span class="string">''</span></span><br><span class="line">      &#125;,<span class="comment">//设置请求头</span></span><br><span class="line">      params:<span class="string">''</span>,<span class="comment">//请求参数拼接在url上</span></span><br><span class="line">      data:<span class="string">''</span><span class="comment">//请求参数放在请求体里</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-axios-全局配置-优先级最低"><a href="#1-axios-全局配置-优先级最低" class="headerlink" title="//1.axios 全局配置  优先级最低"></a>//1.axios 全局配置  优先级最低</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">axios.defaults.timeout = 1000</span><br><span class="line">axios.defaults.url = &apos;http://localhost:8080&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-axios-实例配置-优先级中"><a href="#2-axios-实例配置-优先级中" class="headerlink" title="//2.axios 实例配置  优先级中"></a>//2.axios 实例配置  优先级中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let instance = axios.create()</span><br><span class="line">instance.defaults.timeout = 3000</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-axios-请求配置-优先级最高"><a href="#3-axios-请求配置-优先级最高" class="headerlink" title="//3.axios 请求配置  优先级最高"></a>//3.axios 请求配置  优先级最高</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">instance.get(&apos;data.json&apos;,&#123;</span><br><span class="line">  timeout:6000</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="实际开发的用法"><a href="#实际开发的用法" class="headerlink" title="实际开发的用法"></a>实际开发的用法</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance = axios.create(&#123;</span><br><span class="line">     baseURL:<span class="string">'http://localhost:8080'</span>,</span><br><span class="line">     timeout:<span class="number">1000</span></span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">instance.get(<span class="string">'/testurl'</span>,&#123;</span><br><span class="line">  params:&#123;&#125;</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用了 baseURL timeout method url params</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h1><blockquote>
+<h4 id="在请求或响应贝处理之前拦截它们"><a href="#在请求或响应贝处理之前拦截它们" class="headerlink" title="在请求或响应贝处理之前拦截它们"></a>在请求或响应贝处理之前拦截它们</h4></blockquote>
+<h4 id="请求拦截器"><a href="#请求拦截器" class="headerlink" title="请求拦截器"></a>请求拦截器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">axios.interceptors.request.use(<span class="function"><span class="params">config</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="comment">//在发送请求前做些什么</span></span><br><span class="line">      <span class="keyword">return</span> config</span><br><span class="line">    &#125;,err=&gt;&#123;</span><br><span class="line">      <span class="comment">//在请求错误的时候做些什么</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(err)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="响应拦截器"><a href="#响应拦截器" class="headerlink" title="响应拦截器"></a>响应拦截器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.interceptors.response.use(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">     <span class="comment">//请求成功对响应数据做处理</span></span><br><span class="line">     <span class="keyword">return</span> res</span><br><span class="line">   &#125;,err=&gt;&#123;</span><br><span class="line">     <span class="comment">//响应错误</span></span><br><span class="line">     <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(err)</span><br><span class="line">   &#125;)</span><br><span class="line"></span><br><span class="line"> axios.get(<span class="string">'/data.json'</span>).then(<span class="function">(<span class="params">res</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="取消拦截器"><a href="#取消拦截器" class="headerlink" title="取消拦截器"></a>取消拦截器</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> test = axios.interceptors.request.use(<span class="function"><span class="params">config</span>=&gt;</span>&#123;</span><br><span class="line">     config.headers=&#123;</span><br><span class="line">         auth:<span class="literal">true</span></span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> config</span><br><span class="line">   &#125;)</span><br><span class="line">   <span class="comment">//取消方法</span></span><br><span class="line">   axios.interceptors.request.eject(test)</span><br></pre></td></tr></table></figure>
+
+<h4 id="实际开发—登入状态（token-’’）"><a href="#实际开发—登入状态（token-’’）" class="headerlink" title="实际开发—登入状态（token:’’）"></a>实际开发—登入状态（token:’’）</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance = axios.create(&#123;&#125;)</span><br><span class="line">   instance.interceptors.request.use(<span class="function"><span class="params">config</span>=&gt;</span>&#123;</span><br><span class="line">     config.headers.token = <span class="string">''</span></span><br><span class="line">     <span class="keyword">return</span> config</span><br><span class="line">   &#125;)</span><br><span class="line">   <span class="comment">//不需要登入的接口</span></span><br><span class="line">   <span class="keyword">let</span> newInstance = axios.create(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="移动端开发-隐藏弹窗"><a href="#移动端开发-隐藏弹窗" class="headerlink" title="//移动端开发(隐藏弹窗)"></a>//移动端开发(隐藏弹窗)</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance_phone = axios.create(&#123;&#125;)</span><br><span class="line">   instance.interceptors.request.use(<span class="function"><span class="params">config</span>=&gt;</span>&#123;</span><br><span class="line">     $(<span class="string">'#mod'</span>).show()</span><br><span class="line">     <span class="keyword">return</span> config</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">instance.interceptors.response.use(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  $(<span class="string">'#mod'</span>).hide()</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> instance = axios.create(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">instance.interceptors.request.use(<span class="function"><span class="params">config</span>=&gt;</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> config</span><br><span class="line">   &#125;,err=&gt;&#123;</span><br><span class="line">     <span class="comment">//在请求错误的时候做些什么 错误码 401超时 403没找到界面</span></span><br><span class="line">     $(<span class="string">'#modal'</span>).show()</span><br><span class="line">     setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">       $(<span class="string">'#modal'</span>).hide()</span><br><span class="line">     &#125;, <span class="number">2000</span>);</span><br><span class="line">     <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.interceptors.response.use(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="comment">//请求成功对响应数据做处理</span></span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;,err=&gt;&#123;</span><br><span class="line">  <span class="comment">//响应错误处理 一般http代码500 系统错误 502系统重启</span></span><br><span class="line">  $(<span class="string">'#modal'</span>).show()</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    $(<span class="string">'#modal'</span>).hide()</span><br><span class="line">  &#125;, <span class="number">2000</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">axios.get(<span class="string">'/data.json'</span>).then(<span class="function">(<span class="params">res</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res)</span><br><span class="line">&#125;).catch(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------　　本文结束　<i class="fa fa-heart"></i>　感谢阅读　　-------</div>
+    
+</div>
+      
+      </div>
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/axios/"><i class="fa fa-tag"></i> axios</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/29/axios方法的基本使用/" rel="next" title="axios方法的基本使用">
+                  <i class="fa fa-chevron-left"></i> axios方法的基本使用
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/02/node核心模块/" rel="prev" title="Node核心模块">
+                  Node核心模块 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#axios实例配置"><span class="nav-number">1.</span> <span class="nav-text">axios实例配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#config基本内容"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">config基本内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-axios-全局配置-优先级最低"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">//1.axios 全局配置  优先级最低</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-axios-实例配置-优先级中"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">//2.axios 实例配置  优先级中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-axios-请求配置-优先级最高"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">//3.axios 请求配置  优先级最高</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际开发的用法"><span class="nav-number">2.</span> <span class="nav-text">实际开发的用法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拦截器"><span class="nav-number">3.</span> <span class="nav-text">拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在请求或响应贝处理之前拦截它们"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">在请求或响应贝处理之前拦截它们</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求拦截器"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">请求拦截器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应拦截器"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">响应拦截器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取消拦截器"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">取消拦截器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实际开发—登入状态（token-’’）"><span class="nav-number">3.0.0.5.</span> <span class="nav-text">实际开发—登入状态（token:’’）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#移动端开发-隐藏弹窗"><span class="nav-number">3.0.0.6.</span> <span class="nav-text">//移动端开发(隐藏弹窗)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误处理"><span class="nav-number">4.</span> <span class="nav-text">错误处理</span></a></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cc.jpg"
+      alt="shh33">
+  <p class="site-author-name" itemprop="name">shh33</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/shh33" title="GitHub &rarr; https://github.com/shh33" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style="text-align:center">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shh33</span>
+</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="text-align:center">
+	  <span id="busuanzi_container_site_uv">Total visited <span id="busuanzi_value_site_uv"></span> times</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

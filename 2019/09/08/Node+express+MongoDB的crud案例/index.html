@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/yaya48.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/yaya.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yaya16.ico?v=7.3.0">
+  <link rel="mask-icon" href="/images/yaya48.ico?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="基于express的crud总结 安装 12345678#使用express搭建服务器npm install express#模板引擎页面渲染 定向npm install express-art-template art-template#用来处理POST请求 获取请求体(req.body)npm install body-parser#提供MongoDB的crudnpm install mong">
+<meta name="keywords" content="MongoDB,Node,Express">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node+express+MongoDB的crud案例">
+<meta property="og:url" content="https://shh33.github.io/2019/09/08/Node+express+MongoDB的crud案例/index.html">
+<meta property="og:site_name" content="shh33">
+<meta property="og:description" content="基于express的crud总结 安装 12345678#使用express搭建服务器npm install express#模板引擎页面渲染 定向npm install express-art-template art-template#用来处理POST请求 获取请求体(req.body)npm install body-parser#提供MongoDB的crudnpm install mong">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-23T08:04:39.358Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node+express+MongoDB的crud案例">
+<meta name="twitter:description" content="基于express的crud总结 安装 12345678#使用express搭建服务器npm install express#模板引擎页面渲染 定向npm install express-art-template art-template#用来处理POST请求 获取请求体(req.body)npm install body-parser#提供MongoDB的crudnpm install mong">
+  <link rel="canonical" href="https://shh33.github.io/2019/09/08/Node+express+MongoDB的crud案例/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Node+express+MongoDB的crud案例 | shh33</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">shh33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>时间轴</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+
+  <div class="post-block" 
+  style="
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:50px 20px 70px 20px;
+    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
+  >
+
+    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/08/Node+express+MongoDB的crud案例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shh33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cc.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="shh33">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Node+express+MongoDB的crud案例
+
+          
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-08 15:02:00" itemprop="dateCreated datePublished" datetime="2019-09-08T15:02:00+08:00">2019-09-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node/" itemprop="url" rel="index"><span itemprop="name">Node</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基于express的crud"><a href="#基于express的crud" class="headerlink" title="基于express的crud"></a>基于express的crud</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>使用express搭建服务器</span><br><span class="line">npm install express</span><br><span class="line"><span class="meta">#</span>模板引擎页面渲染 定向</span><br><span class="line">npm install express-art-template art-template</span><br><span class="line"><span class="meta">#</span>用来处理POST请求 获取请求体(req.body)</span><br><span class="line">npm install body-parser</span><br><span class="line"><span class="meta">#</span>提供MongoDB的crud</span><br><span class="line">npm install mongoose</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>express要点</p>
+<blockquote>
+<ul>
+<li><p>设置 静态服务（url可访问）</p>
+</li>
+<li><p>把路由容器挂载到 app 服务中<br>app.use(router)</p>
+</li>
+<li><p>Express 提供了一种更好的方式 专门用来包装路由的<br>var express = require(‘express’)</p>
+<p>创建一个路由容器<br>var router = express.Router()</p>
+<p>执行</p>
+<p>router.get()</p>
+<p>router.post()</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>表单要点</p>
+<blockquote>
+<p>get  ===&gt; req.query 拿 get 请求参数<br>post ===&gt; req.body 拿post请求参数</p>
+</blockquote>
+</li>
+<li><p>mongoose要点</p>
+<blockquote>
+<p>注意格式<br>id 是字符串格式且 为 ( _id )<br>记得去字符串</p>
+</blockquote>
+</li>
+<li><p>art-template要点</p>
+<ul>
+<li>模板配置（默认约定文件在views目录）</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; app.engine(<span class="string">'html'</span>, <span class="built_in">require</span>(<span class="string">'express-art-template'</span>)) </span><br><span class="line">&gt; </span><br><span class="line">&gt; app.set(<span class="string">'views'</span>,path.join(__dirname,<span class="string">'./views/'</span>)) <span class="comment">//若要修改</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>渲染页面</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; router.get(<span class="string">'/students'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">&gt; </span><br><span class="line">&gt; 	res.render(<span class="string">'new.html'</span>)</span><br><span class="line">&gt; </span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>重定向</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; res.redirect(&apos;/students&apos;)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>循环语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; &#123;&#123; each students &#125;&#125; </span><br><span class="line">&gt; </span><br><span class="line">&gt; &#123;&#123; $value.hobbies &#125;&#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt; &#123;&#123; /each &#125;&#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="路由设计"><a href="#路由设计" class="headerlink" title="路由设计"></a>路由设计</h2><table>
+<thead>
+<tr>
+<th>请求方法</th>
+<th>请求路径</th>
+<th>get 参数</th>
+<th>post 参数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>/studens</td>
+<td></td>
+<td></td>
+<td>渲染首页</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/students/new</td>
+<td></td>
+<td></td>
+<td>渲染添加学生页面</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/studens/new</td>
+<td></td>
+<td>name、age、gender、hobbies</td>
+<td>处理添加学生请求</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/students/edit</td>
+<td>id</td>
+<td></td>
+<td>渲染编辑页面</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/studens/edit</td>
+<td></td>
+<td>id、name、age、gender、hobbies</td>
+<td>处理编辑请求</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/students/delete</td>
+<td>id</td>
+<td></td>
+<td>处理删除请求</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="入口模块（app-js）"><a href="#入口模块（app-js）" class="headerlink" title="入口模块（app.js）"></a>入口模块（app.js）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * app.js 入口模块</span></span><br><span class="line"><span class="comment"> * 职责：</span></span><br><span class="line"><span class="comment"> *   创建服务</span></span><br><span class="line"><span class="comment"> *   做一些服务相关配置</span></span><br><span class="line"><span class="comment"> *     模板引擎</span></span><br><span class="line"><span class="comment"> *     body-parser 解析表单 post 请求体</span></span><br><span class="line"><span class="comment"> *     提供静态资源服务</span></span><br><span class="line"><span class="comment"> *   挂载路由</span></span><br><span class="line"><span class="comment"> *   监听端口启动服务</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//用来处理post表单请求体（req.body）</span></span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> router = <span class="built_in">require</span>(<span class="string">'./router'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express()</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置 静态服务（url可访问）</span></span><br><span class="line">app.use(<span class="string">'/node_modules/'</span>, express.static(<span class="string">'./node_modules/'</span>))</span><br><span class="line">app.use(<span class="string">'/public/'</span>, express.static(<span class="string">'./public/'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//模板配置（默认约定文件在views目录）：</span></span><br><span class="line">app.engine(<span class="string">'html'</span>, <span class="built_in">require</span>(<span class="string">'express-art-template'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置模板引擎和 body-parser 一定要在 app.use(router) 挂载路由之前</span></span><br><span class="line"><span class="comment">// parse application/x-www-form-urlencoded</span></span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;))</span><br><span class="line"><span class="comment">// parse application/json</span></span><br><span class="line">app.use(bodyParser.json())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// router(app)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 把路由容器挂载到 app 服务中</span></span><br><span class="line">app.use(router)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">4000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'running 4000...'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = app</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据操作文件模块（student-js）"><a href="#数据操作文件模块（student-js）" class="headerlink" title="数据操作文件模块（student.js）"></a>数据操作文件模块（student.js）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * student.js 操作数据模块</span></span><br><span class="line"><span class="comment"> * 职责：操作文件中的数据，只处理数据，不关心业务</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="comment">//连接数据库</span></span><br><span class="line">mongoose.connect(<span class="string">'mongodb://localhost/itcast'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义表单 设计文档结构</span></span><br><span class="line"><span class="keyword">var</span> studentSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name : &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span> <span class="comment">//必填</span></span><br><span class="line">  &#125;,</span><br><span class="line">  gender: &#123;</span><br><span class="line">    type: <span class="built_in">Number</span>,</span><br><span class="line">    enum: [<span class="number">0</span>, <span class="number">1</span>], <span class="comment">//0或者1</span></span><br><span class="line">    <span class="keyword">default</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  age: &#123;</span><br><span class="line">    type: <span class="built_in">Number</span> <span class="comment">//可为空</span></span><br><span class="line">  &#125;,</span><br><span class="line">  hobbies : &#123;</span><br><span class="line">    type: <span class="built_in">String</span> <span class="comment">//可为空</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布为模型 并导出给router模块执行crud（注意生成的集合为小写复数students）</span></span><br><span class="line"><span class="comment">// 模型构造函数</span></span><br><span class="line"><span class="built_in">module</span>.exports = mongoose.model(<span class="string">'Student'</span>,studentSchema)</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由模块（router-js）"><a href="#路由模块（router-js）" class="headerlink" title="路由模块（router.js）"></a>路由模块（router.js）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * router.js 路由模块</span></span><br><span class="line"><span class="comment"> * 职责：</span></span><br><span class="line"><span class="comment"> *   处理路由</span></span><br><span class="line"><span class="comment"> *   根据不同的请求方法+请求路径设置具体的请求处理函数</span></span><br><span class="line"><span class="comment"> * 模块职责要单一，不要乱写</span></span><br><span class="line"><span class="comment"> * 划分模块的目的就是为了增强项目代码的可维护性</span></span><br><span class="line"><span class="comment"> * 提升开发效率</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收模型构造函数 用来执行crud</span></span><br><span class="line"><span class="keyword">var</span> Student = <span class="built_in">require</span>(<span class="string">'./student'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Express 提供了一种更好的方式</span></span><br><span class="line"><span class="comment">// 专门用来包装路由的</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 创建一个路由容器</span></span><br><span class="line"><span class="keyword">var</span> router = express.Router()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 把路由都挂载到 router 路由容器中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 渲染学生列表页面</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.get(<span class="string">'/students'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    Student.find(<span class="function"><span class="keyword">function</span>(<span class="params">err, students</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(err)&#123;</span><br><span class="line">        <span class="keyword">return</span> res.status(<span class="number">500</span>).send(<span class="string">'sever error'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      res.render(<span class="string">'index.html'</span>, &#123;</span><br><span class="line">        fruits: [</span><br><span class="line">          <span class="string">'苹果'</span>,</span><br><span class="line">          <span class="string">'香蕉'</span>,</span><br><span class="line">          <span class="string">'橘子'</span></span><br><span class="line">        ],</span><br><span class="line">        students: students</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 渲染添加学生页面</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.get(<span class="string">'/students/new'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.render(<span class="string">'new.html'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 处理添加学生</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.post(<span class="string">'/students/new'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 获取表单数据</span></span><br><span class="line">  <span class="comment">// 2. 处理</span></span><br><span class="line">  <span class="comment">// 3. 发送响应</span></span><br><span class="line">  <span class="keyword">new</span> Student(req.body).save(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">500</span>).send(<span class="string">'Server error.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    res.redirect(<span class="string">'/students'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 渲染编辑学生页面</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.get(<span class="string">'/students/edit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 在客户端的列表页中处理链接问题（需要有 id 参数）</span></span><br><span class="line">  <span class="comment">// 2. 获取要编辑的学生 id </span></span><br><span class="line">  <span class="comment">// 3. 渲染编辑页面</span></span><br><span class="line">  <span class="comment">//    根据 id 把学生信息查出来</span></span><br><span class="line">  <span class="comment">//    使用模板引擎渲染页面</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//MongoDB的id是字符串格式的需处理一下且对应html文件中需要注意id是带带下划线的(_id)</span></span><br><span class="line"></span><br><span class="line">  Student.findById(req.query.id.replace(<span class="regexp">/"/g</span>, <span class="string">''</span>), <span class="function"><span class="keyword">function</span> (<span class="params">err, student</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">500</span>).send(<span class="string">'Server error.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    res.render(<span class="string">'edit.html'</span>, &#123;</span><br><span class="line">      student: student</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 处理编辑学生</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.post(<span class="string">'/students/edit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 获取表单数据</span></span><br><span class="line">    <span class="comment">//  req.body</span></span><br><span class="line">    <span class="comment">//  console.log(req.body)</span></span><br><span class="line">  <span class="comment">// 2. 更新</span></span><br><span class="line">    <span class="comment">//  Student.updateById()</span></span><br><span class="line">  <span class="comment">// 3. 发送响应</span></span><br><span class="line">  <span class="keyword">var</span> id = req.body.id.replace(<span class="regexp">/"/g</span>, <span class="string">''</span>)</span><br><span class="line">  Student.findByIdAndUpdate(id, req.body, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">500</span>).send(<span class="string">'Server error.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    res.redirect(<span class="string">'/students'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 处理删除学生</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.get(<span class="string">'/students/delete'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 1. 获取要删除的 id</span></span><br><span class="line">  <span class="comment">// 2. 根据 id 执行删除操作</span></span><br><span class="line">  <span class="comment">// 3. 根据操作结果发送响应数据</span></span><br><span class="line">  <span class="keyword">var</span> id = req.query.id.replace(<span class="regexp">/"/g</span>, <span class="string">''</span>)</span><br><span class="line">  Student.findByIdAndRemove(id, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">500</span>).send(<span class="string">'Server error.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    res.redirect(<span class="string">'/students'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 把 router 导出</span></span><br><span class="line"><span class="built_in">module</span>.exports = router</span><br></pre></td></tr></table></figure>
+
+<h3 id="views的文件"><a href="#views的文件" class="headerlink" title="views的文件"></a>views的文件</h3><h4 id="new-html"><a href="#new-html" class="headerlink" title="new.html"></a>new.html</h4><ol>
+<li>这里会自动生成id</li>
+<li>故只需要  name、age、gender、hobbies</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"sub-header"</span>&gt;</span>添加学生<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/students/new"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">required</span> <span class="attr">minlength</span>=<span class="string">"2"</span> <span class="attr">maxlength</span>=<span class="string">"10"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>性别<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">"radio-inline"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">value</span>=<span class="string">"0"</span> <span class="attr">checked</span>&gt;</span> 男</span><br><span class="line">              <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">"radio-inline"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span> 女</span><br><span class="line">              <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">type</span>=<span class="string">"number"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">required</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"150"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>爱好<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"hobbies"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="edit-html"><a href="#edit-html" class="headerlink" title="edit.html"></a>edit.html</h3><ol>
+<li>注意id在mongodb中是 （ _id )</li>
+<li>修改需要提交  id、name、age、gender、hobbies</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"sub-header"</span>&gt;</span>添加学生<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/students/edit"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">          </span><br><span class="line">          <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">            用来放一些不希望被用户看见，但是需要被提交到服务端的数据</span></span><br><span class="line"><span class="comment">           --&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"id"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; student._id &#125;&#125;"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">required</span> <span class="attr">minlength</span>=<span class="string">"2"</span> <span class="attr">maxlength</span>=<span class="string">"10"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; student.name &#125;&#125;"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>性别<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">"radio-inline"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">value</span>=<span class="string">"0"</span> <span class="attr">checked</span>&gt;</span> 男</span><br><span class="line">              <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">"radio-inline"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span> 女</span><br><span class="line">              <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">type</span>=<span class="string">"number"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; student.age &#125;&#125;"</span> <span class="attr">required</span> <span class="attr">min</span>=<span class="string">"1"</span> <span class="attr">max</span>=<span class="string">"150"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>爱好<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">name</span>=<span class="string">"hobbies"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; student.hobbies &#125;&#125;"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><ol>
+<li>模板循环语法each</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table table-striped"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>#<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>姓名<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>性别<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>爱好<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">th</span>&gt;</span>操作<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">                  &#123;&#123; each students &#125;&#125;</span><br><span class="line">                  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; $index &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; $value.name &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; $value.gender &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; $value.age &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; $value.hobbies &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/students/edit?id=&#123;&#123; $value.id &#125;&#125;"</span>&gt;</span>编辑<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/students/delete?id=&#123;&#123; $value.id &#125;&#125;"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">                  &#123;&#123; /each &#125;&#125;</span><br><span class="line">              <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------　　本文结束　<i class="fa fa-heart"></i>　感谢阅读　　-------</div>
+    
+</div>
+      
+      </div>
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/MongoDB/"><i class="fa fa-tag"></i> MongoDB</a>
+            
+              <a href="/tags/Node/"><i class="fa fa-tag"></i> Node</a>
+            
+              <a href="/tags/Express/"><i class="fa fa-tag"></i> Express</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/08/node-mysql/" rel="next" title="Node+mysql">
+                  <i class="fa fa-chevron-left"></i> Node+mysql
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/30/Git指令/" rel="prev" title="Git操作指令">
+                  Git操作指令 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于express的crud"><span class="nav-number">1.</span> <span class="nav-text">基于express的crud</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由设计"><span class="nav-number">1.2.</span> <span class="nav-text">路由设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#入口模块（app-js）"><span class="nav-number">1.2.1.</span> <span class="nav-text">入口模块（app.js）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据操作文件模块（student-js）"><span class="nav-number">1.2.2.</span> <span class="nav-text">数据操作文件模块（student.js）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由模块（router-js）"><span class="nav-number">1.2.3.</span> <span class="nav-text">路由模块（router.js）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#views的文件"><span class="nav-number">1.2.4.</span> <span class="nav-text">views的文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#new-html"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">new.html</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#edit-html"><span class="nav-number">1.2.5.</span> <span class="nav-text">edit.html</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#index-html"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">index.html</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cc.jpg"
+      alt="shh33">
+  <p class="site-author-name" itemprop="name">shh33</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/shh33" title="GitHub &rarr; https://github.com/shh33" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style="text-align:center">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shh33</span>
+</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="text-align:center">
+	  <span id="busuanzi_container_site_uv">Total visited <span id="busuanzi_value_site_uv"></span> times</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
