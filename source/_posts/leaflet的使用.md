@@ -1,5 +1,5 @@
 ---
-title: leaflett的使用
+title: leaflet的使用
 typora-root-url: ..
 date: 2019-12-23 14:22:14
 tags: leaflet
