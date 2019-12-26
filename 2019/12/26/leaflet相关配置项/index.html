@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/yaya48.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/yaya.ico?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/yaya16.ico?v=7.3.0">
+  <link rel="mask-icon" href="/images/yaya48.ico?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="L.MapAPI各种类中的核心部分，用来在页面中创建地图并操纵地图。">
+<meta name="keywords" content="leaflet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leaflet相关配置项">
+<meta property="og:url" content="https://shh33.github.io/2019/12/26/leaflet相关配置项/index.html">
+<meta property="og:site_name" content="shh33">
+<meta property="og:description" content="L.MapAPI各种类中的核心部分，用来在页面中创建地图并操纵地图。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-26T03:13:14.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leaflet相关配置项">
+<meta name="twitter:description" content="L.MapAPI各种类中的核心部分，用来在页面中创建地图并操纵地图。">
+  <link rel="canonical" href="https://shh33.github.io/2019/12/26/leaflet相关配置项/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>leaflet相关配置项 | shh33</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">shh33</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>时间轴</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+
+  <div class="post-block" 
+  style="
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:50px 20px 70px 20px;
+    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
+  >
+
+    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/12/26/leaflet相关配置项/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shh33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cc.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="shh33">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">leaflet相关配置项
+
+          
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-26 10:27:07 / 修改时间：11:13:14" itemprop="dateCreated datePublished" datetime="2019-12-26T10:27:07+08:00">2019-12-26</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/leaflet/" itemprop="url" rel="index"><span itemprop="name">leaflet</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="L-Map"><a href="#L-Map" class="headerlink" title="L.Map"></a>L.Map</h3><p>API各种类中的核心部分，用来在页面中创建地图并操纵地图。</p>
+<a id="more"></a>
+
+<h5 id="Constructor（构造器）"><a href="#Constructor（构造器）" class="headerlink" title="Constructor（构造器）"></a>Constructor（构造器）</h5><p>通过div元素和带有地图选项的描述的文字对象来实例化一个地图对象，其中文字对象是可选的。</p>
+<h5 id="Options（选项）"><a href="#Options（选项）" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>Map State Options（地图状态选项）<br> centre（中心）：初始化地图的地理中心。<br> zoom（缩放）：初始化地图的缩放。<br> layers（图层）：初始化后加载到地图上的图层。<br> minZoom（最小视图）：地图的最小视图。可以重写地图图层的最小视图。<br> maxZoom（最大视图）：地图的最大视图。可以重写地图图层的最大视图。<br> maxBounds（最大边界）：当这个选项被设置后，地图被限制在给定的地理边界内，当用户平移将地图拖动到视图以外的范围时会出现弹回的效果，并且也不允许缩小视图到给定范围以外的区域（这取决于地图的尺寸）。使用setMaxBounds方法可以动态地设置这种约束。<br> crs（坐标参考系统）：使用的坐标系，当你不确定坐标系是什么时请不要更改。<br> Interaction Options（交互操作）<br> dragging（拖动）：决定地图是否可被鼠标或触摸拖动。<br> touchZoom（触摸缩放）：决定地图是否可被两只手指触摸拖拽缩放。<br> scrollWheelZoom（滚轮缩放）：决定地图是否被被鼠标滚轮滚动缩放。<br> doubleClickZoom（双击缩放）：决定地图是否可被双击缩放。<br> boxZoom（多边形缩放）：决定地图是否可被缩放到鼠标拖拽出的矩形的视图，鼠标拖拽时需要同时按住shift键。<br> trackResize（追踪尺寸改变）：确定地图在窗口尺寸改变时是否可以自动处理浏览器以更新视图。<br> worldCopyJump（领域副本跳转）：当这个选项可用时，当你平移地图到其另一个领域时会被地图捕获到，并无缝地跳转到原始的领域以保证所有标注、矢量图层之类的覆盖物仍然可见。<br> closePopupOnClick（点击关闭消息弹出框）：当你不想用户点击地图关闭消息弹出框时，请将其设置为false。<br> Keyboard Navigation Options（键盘操纵选项）<br> keyboard（键盘）：聚焦到地图且允许用户通过键盘的方向键和加减键来漫游地图。<br> keyboardPanOffset（键盘平移补偿）：确定按键盘方向键时地图平移的像素。<br> keyboardZoomOffset（键盘缩放补偿）：确定键盘加减键对于的缩放级数。<br> Panning Inertia Options（平移惯性选项）<br> inertia（惯性）：如果该选项可用，在拖动和在某一时间段内持续朝同一方向移动建有动力的地图时，会有惯性的效果。<br> inertiaDeceleration（惯性减速）：确定惯性移动减速的速率，单位是像素每秒的二次方。<br> inertiaMaxSpeed（惯性最大速度）：惯性移动的最大速度，单位是像素每秒。<br> inertiaThreshold（惯性阈值）：放开鼠标或是触摸来停止惯性移动与移动停止之间的毫秒数。<br> Control options（控制选项）<br> zoomControl（缩放控制）：确定缩放控制是否默认加载在地图上。<br> attributionControl（属性控制）：确定属性控制是否默认加载在地图上。<br> Animation options（动画选项）<br> fadeAnimation（淡出动画）：确定瓦片淡出动画是否可用。通常默认在所有浏览器中都支持CSS3转场，android例外。<br> zoomAnimation（缩放动画）：确定瓦片缩放动画是否可用。通常默认在所有浏览器中都支持CSS3转场，android例外。<br> markerZoomAnimation（注记缩放动画）：确定注记的缩放是否随地图缩放动画而播放，如果被禁用，注记在动画中拉长时会消失。通常默认在所有浏览器中都支持CSS3转场，android例外。</p>
+<h3 id="Events（事件）"><a href="#Events（事件）" class="headerlink" title="Events（事件）"></a>Events（事件）</h3><p>click（点击）：用户点击或触摸地图时触发。<br> dbclick（双击）：用户双击或连续两次触摸地图时触发。<br> mousedown（鼠标按下）：用户按下鼠标按键时触发。<br> mouseup（鼠标抬起）：用户按下鼠标按键时触发。<br> mouseover（鼠标经过）：鼠标进入地图时触发。<br> mouseout（鼠标移出）：鼠标离开地图时触发。<br> mousemove（鼠标移动）：鼠标在地图上移动时触发。<br> contextmenu（情景菜单）：当用户在地图上按下鼠标右键时触发，如果有监听器在监听这个时间，则浏览器默认的情景菜单被禁用。<br> focus（聚焦）：当用户在地图上进行标引、点击或移动时进行聚焦。<br> blur（变暗）:当地图失去焦点时触发。<br> preclick（预先点击）：当鼠标在地图上点击之前触发。有时会在点击鼠标时，并在已存在的点击事件开始处理之前想要某件事情发生时用得到。<br> load（载入）：当地图初始化时触发。（当地图的中心点和缩放初次设置时）<br> viewreset（视图重置）：当地图需要重绘内容时触发。（通常在地图缩放和载入时发生）这对于创建用户自定义的叠置图层非常有用。<br> movestart（移动开始）：地图视图开始改变时触发。（比如用户开始拖动地图）<br> move（移动）：所有的地图视图移动时触发。<br> moveend（移动结束）：当地图视图结束改变时触发。（比如用户停止拖动地图）<br> dragstart（拖动开始）：用户开始拖动地图时触发。<br> drag（拖动）：用户拖动地图时不断重复地触发。<br> dragend（拖动结束）：用户停止拖动时触发。<br> zoomstart（缩放开始）：当地图缩放即将发生时触发。（比如缩放动作开始前）<br> zoomend（缩放结束）：当地图缩放时触发。<br> autopanstart（自动平移开始）：打开弹出窗口时地图开始自动平移时触发。<br> layeradd（添加图层）：当一个新的图层添加到地图上时触发。<br> layerremove（图层移除）：当一些图层从地图上移除时触发。<br> baselayerchange（基础图层改变）：当通过图层控制台改变基础图层时触发。<br> locationfound（位置查找）：当地理寻址成功时触发（使用locate方法）。<br> locationerror（定位错误）：当地理寻址错误时触发（使用locate方法）。<br> popupopen（打开弹出框）：当弹出框打开时触发（使用openPopup方法）。<br> popupclose（关闭弹出框）：当弹出框关闭时触发（使用closePopup方法）。</p>
+<h4 id="Methods-for-Modifying-Map-State（地图状态修改）"><a href="#Methods-for-Modifying-Map-State（地图状态修改）" class="headerlink" title="Methods for Modifying Map State（地图状态修改）"></a>Methods for Modifying Map State（地图状态修改）</h4><p>setView(设定视图)：设定地图（设定其地理中心和缩放），如果forceReset设置的是true，即使移动和缩放动作是合理的，地图也会重载，其默认值是fault。<br> setZoom（设定缩放）：设定地图的缩放。<br> zoomIn（放大）：通过delta变量放大地图的级别，1是delta的默认值。<br> zoomOut（缩小）：通过delta变量缩小地图的级别，1是delta的默认值。<br> fitBounds（使适合边界）：将地图视图尽可能大地设定在给定的地理边界内。<br> fitWorld（使适合地域范围）：将地图视图尽可能大地设定在包含全部地域的级别上。<br> panTo（平移至中心点）：将地图平移到给定的中心。如果新的中心点在屏幕内与现有的中心点不同则产生平移动作。<br> panInsideBounds（平移到某边界内）：平移地图到坐落于给定边界最接近的视图内。<br> panBy（通过像素点平移）：通过给定的像素值对地图进行平移。<br> invalidateSize（无效的大小）：检查地图容器的大小是否改变并更新地图，如果是这样的话，在动态改变地图大小后调用，如果animate是true的话，对地图进行更新。<br> setMaxBounds（设置最大边界）：将地图限定在给定的边界内。<br> locate（定位）：用地理定位接口获取用户位置信息，在成功定位或定位出错产生locationerror后解除location-found事件与定位数据，且将地图视图设定到检测的确切的用户的位置（如果定位失败则回到地域视图）。在Location Options中有更多详细内容。<br> stopLocation（停止定位）：开始map.locate方法时停止预先检测位置信息。</p>
+<h5 id="Methods-for-Getting-Map-State（获取地图状态）"><a href="#Methods-for-Getting-Map-State（获取地图状态）" class="headerlink" title="Methods for Getting Map State（获取地图状态）"></a>Methods for Getting Map State（获取地图状态）</h5><p>getCenter（获取地图中心）：返回地图视图的地理中心。<br> getZoom（获取缩放级别）：获取地图视图现在所处的缩放级别。<br> getMixZoom（获取最小缩放级别）：返回地图最小的缩放级别。<br> getMaxZoom（获取最大缩放级别）：返回地图最大的缩放级别。<br> getBounds（获取边界）：返回地图视图的经纬度边界。<br> getBoundsZoom（获取边界缩放级别）：返回适应整个地图视图边界的最大缩放级别。如果inside的设置时true，这个方法返回适应整个地图视图边界的最小缩放级别。<br> getSize（获取大小）：返回现有地图容器的大小。<br> getPixelBounds（获取像素边界）：返回地图视图在像素投影坐标系下的边界。（很多时候对用户自定义图层和叠加很有用）<br> getPixelOrigin（获取像素原点）：返回地图图层像素投影坐标系下的左上角的点。（很多时候对用户自定义图层和叠加很有用）</p>
+<h5 id="Methods-for-Layers-and-Controls（图层控制）"><a href="#Methods-for-Layers-and-Controls（图层控制）" class="headerlink" title="Methods for Layers and Controls（图层控制）"></a>Methods for Layers and Controls（图层控制）</h5><p>addlayer（添加图层）：将图层添加到地图上。如果insertAtTheBottom的选项为true，图层添加时在所以图层之下。（在切换基底图时比较有用）<br> removelayer（移除图层）：将图层在地图上移除。<br> haslayer（是否有此图层）：如果添加的图层是当前图层则返回true。<br> openPopup（打开弹出框）：当关闭前一个弹出框时弹出指定的对话框。（确定在同一时间只有一个打开并可用）<br> closePopup（关闭弹出框）：关闭openPopup打开的弹出框。<br> addControl（添加控制）：在地图上添加控制选项。<br> removeControl（移除控制）：在地图上移除控制选项。</p>
+<h5 id="Conversion-Methods（转换方法）"><a href="#Conversion-Methods（转换方法）" class="headerlink" title="Conversion Methods（转换方法）"></a>Conversion Methods（转换方法）</h5><p>latlngToLayerPoint（将经纬度添转变为图层上的点）：返回地图图层上与地理坐标相一致的点。（在地图上进行位置叠加时比较有用）<br> layerPointToLatLng（将图层上的点转换为经纬度点）：返回给定地图上点的地理坐标系。<br> containerPointToLayerPoint（容器点到图层点）：将于地图容器相关的点转换为地图图层相关的点。<br> layerPointToContainerPoint（图层点到容器点）：将地图图层相关的点转换为地图容器相关的点。<br> LatLngToContainerPoint（经纬度点到容器点）：返回与给定地理坐标系相符的地图容器的点。<br> containerPointToLatLng（容器点转换为经纬度点）：返回给定地理容器点的地理坐标。<br> project（投影）：将地理坐标投影到指定缩放级别的像素坐标系中。<br> unproject（反投影）：将像素坐标系投影到指定缩放级别的地理坐标系中。（默认为当前的缩放级别）<br> mouseEventToContainerPoint（鼠标点击事件到地图容器点）：返回鼠标点击事件对象的像素坐标（与地图左上角相关）。<br> mouseEventToLayerPoint（鼠标点击事件到地图容器点）：返回鼠标点击事件对象的像素坐标（与地图图层相关）。<br> mouseEventToLatLng（鼠标点击事件到经纬度点）：返回鼠标点击事件对象的地理坐标。</p>
+<h5 id="Other-Methods（其他方法）"><a href="#Other-Methods（其他方法）" class="headerlink" title="Other Methods（其他方法）"></a>Other Methods（其他方法）</h5><p>getContainer（获取容器）：返回地图容器对象。<br> getPanes（获取地图边框）：返回不同地图对象的边框（叠加渲染)<br> whenReady（准备就绪）：当地图的位置和缩放初始化好或是时间发生之后，运行给定的回调方法，通常传递一个函数内容。</p>
+<h3 id="Locate-options（位置选项）"><a href="#Locate-options（位置选项）" class="headerlink" title="Locate options（位置选项）"></a>Locate options（位置选项）</h3><p>watch（监听）：如果该值为真，则开始利用W3C的watchPosition方法监听位置变化情况（而不是指监听一次）。你可以通过map.stoplocate()方法来停止监听。<br> setView（设置视图）：如果该值为真，则通过自动将地图视图定位到用户一定精度范围内的位置，如果地理定位失败则显示全部地图。<br> maxZoom（最大级别）：在使用setView选项时视图缩放的最大级别。<br> timeout（超时）：在触发locationerror事件之前等待地理定位的毫秒为单位的时间。<br> maximumAge（最大生命周期）：位置监听的最大生命周期。如果比最后定位回复后毫秒用时短，则locate返回一个缓存位置。<br> enableHighAccuracy（开启高精度）：开启高精度，参加W3C SPEC的描述。</p>
+<h5 id="Properties（属性）"><a href="#Properties（属性）" class="headerlink" title="Properties（属性）"></a>Properties（属性）</h5><p>地图属性包括互动操作，允许你在运行环境中互动地控制地图行为，比如通过拖拽和点击缩放级别显示和不显示某要素。你也可以通过地图属性来接受默认的地图控制项，比如属性控制。<br> dragging（拖拽）：地图拖拽处理程序，可以通过鼠标和触摸的形式。<br> touchZoom（触摸缩放按钮）：触摸地图缩放处理程序。<br> doubleClickZoom（双击缩放）：双击缩放处理程序。<br> scrollWheelZoom（滚动缩放）：滚动缩放处理程序。<br> boxZoom（矩形框缩放）：矩形框（利用鼠标拖动）缩放处理程序。<br> keyboard（键盘）：键盘导向处理程序。<br> zoomControl（缩放控制）：缩放控制。<br> attributionControl（属性控制）：属性控制。</p>
+<h5 id="Map-Panes（地图窗口）"><a href="#Map-Panes（地图窗口）" class="headerlink" title="Map Panes（地图窗口）"></a>Map Panes（地图窗口）</h5><p>望文思义，这是一个包括可以用来放置自定义图层的不同的地图窗口的对象。最大的区别是图层的叠置。<br> mapPane（地图窗口）：包含其他地图窗口的窗口。<br> tilePane（切片窗口）：切片图层的窗口。<br> objectsPane（对象窗口）：包含除切片窗口以外所有窗口的窗口。<br> shadowPane（隐含窗口）：用来隐藏图层的窗口（如标注的隐藏）。<br> overlayPane（图层窗口）：这线段和多边形一类图层的窗口。<br> markerPane（标注窗口）：标注图标的窗口。<br> popupPane（弹出窗口）：弹出的窗口。</p>
+<h3 id="L-Marker"><a href="#L-Marker" class="headerlink" title="L.Marker"></a>L.Marker</h3><p>用来在地图中放置注记。</p>
+<h5 id="Constructor（构造函数）"><a href="#Constructor（构造函数）" class="headerlink" title="Constructor（构造函数）"></a>Constructor（构造函数）</h5><p>L.Marker（）：通过给定一个地理点和一个具有选项的对象来实例化一个注记。</p>
+<h5 id="Options（选项）-1"><a href="#Options（选项）-1" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>icon（图标）：图标类用来表达注记。参加Icon documentation以了解自定义注记图标的详细信息。默认设置为new L.Icon.Default()。<br> clickable（可点击）：如果是false，注记则不产生鼠标事件并表现为底层地图的一部分。<br> draggable（可拖动）：决定注记是否可被鼠标或触摸拖动。<br> title（标题）：注记旁边显示浏览器提示的文本信息。<br> zIndexOffset（）：默认情况下，注记图片的叠置顺序由纬度自动设置。如果你想将某一注记放置于其他之上可用这个选项，设置一个较大的值即可，比如1000（或是相反地设置一个较大的负值）。<br> opacity（不透明度）：决定注记的不透明度。<br> riseOnHover（凸显）：如果此值为true，则当把鼠标放置于注记之上时，注记会显示与其他注记之上。<br> riseOffset（凸显补偿）：riseOnHover要素凸显时高度的补偿值。</p>
+<h5 id="Events（事件）-1"><a href="#Events（事件）-1" class="headerlink" title="Events（事件）"></a>Events（事件）</h5><p>click（点击）：当鼠标点击注记时触发。<br> dbclick（双击）：当鼠标双击注记时触发。<br> mousedown（鼠标按下）：当鼠标按下鼠标键时触发。<br> mouseover（鼠标置于其上）：当鼠标在注记上时触发。<br> mouseout（鼠标移出）：当鼠标离开注记时触发。<br> contextmenu（文本菜单）：当鼠标右击注记时触发。<br> dragstrat（拖动开始）：当用户拖动注记时触发。<br> drag（拖动）：当用户拖动注记时不断触发。<br> dragend（拖动结束）：当用户停止拖动注记时触发。<br> move（移动）：当注记通过定义经纬度而移动时触发。新的坐标包含事件参数。<br> remove（删除）：当注记在地图上被删除时触发。</p>
+<h5 id="Methods（方法）"><a href="#Methods（方法）" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo()：在地图上添加注记。<br> getLatLng()：返回当前注记的地理位置。<br> setLatLng()：将注记位置更改到给定点。<br> setIcon()：更改注记的图标。<br> setZIndexOffset()：更改注记的zIndex offset。<br> setOpacity()：更改注记的透明度。<br> update()：更新注记的位置，在直接更改经纬度对象的坐标时比较有用。<br> bindPopup()：当点击一个注记时绑定一个特定的HTML内容的弹出窗口。你也可以用Marker中的openPopup方法打开绑定的弹出窗口。<br> unbindPopup()：将先前用bindPopup方法绑定的注记取消。<br> openPopup()：打开先前用bindPopup方法绑定的弹出框。<br> closePopup()：关闭已打开的注记的弹出框。</p>
+<h5 id="Interaction-handlers（互操作处理程序）"><a href="#Interaction-handlers（互操作处理程序）" class="headerlink" title="Interaction handlers（互操作处理程序）"></a>Interaction handlers（互操作处理程序）</h5><p>dragging（拖动）：注记拖动处理程序（包括鼠标和触摸）。</p>
+<h3 id="L-Popup"><a href="#L-Popup" class="headerlink" title="L.Popup"></a>L.Popup</h3><h5 id="Constructor（函数构造器）"><a href="#Constructor（函数构造器）" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.Popup()：通过给定一些选项构造一个弹出框对象，对象用来描述出现形式和位置还有一个可选对象来根据指向的资源对象标注弹出框。<br> maxWidth（最大宽度）：弹出框的最大宽度。<br> minWidth（最小宽度）：弹出框的最小宽度。<br> maxHeight（最大高度）：设置后，如果内容超过弹出窗口的给定高度则产生一个可以滚动的容器。<br> autoPan（自动平移）：如果你不想地图自动平移来适应打开的弹出框，就设置其为false。<br> closeButton（关闭按钮）：控制弹出窗口中出现的关闭按钮。<br> offset（补偿值）：弹出窗口位置的补偿值。在同一图层中打开弹出窗口时对于控制锚点比较有用。<br> autoPanPadding（自动平移填补）：在地图视图自动平移产生后弹出窗口和地图视图之间的边缘。<br> zoomAnimation：决定是否在所在级别上弹出窗口。如果你在弹出窗口中有flash内容的最好将其设置为不可用。</p>
+<h5 id="Methods（方法）-1"><a href="#Methods（方法）-1" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo：将弹出窗口添加到地图上。<br> openOn：将弹出窗口添加到地图上并将之前的一个关闭。与map.oenPopup(popup)方法相同。<br> setLatLng：设置弹出窗口打开的地理上的点位。<br> setContent：设置弹出窗口的HTML内容。</p>
+<h3 id="L-TileLayer"><a href="#L-TileLayer" class="headerlink" title="L.TileLayer"></a>L.TileLayer</h3><p>用来在地图上载入和显示切片图层，用ILayer接口实现。</p>
+<h5 id="Constructor（函数构造器）-1"><a href="#Constructor（函数构造器）-1" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.TileLayer()：通过给定URL模板和具有选项的对象来实例化一个切片图层。</p>
+<h5 id="URL-template（URL模板）"><a href="#URL-template（URL模板）" class="headerlink" title="URL template（URL模板）"></a>URL template（URL模板）</h5><p>见下面的例子<br> L.tileLayer(‘http://{s}<a href="https://link.jianshu.com?t=http://.somedomain.com/" target="_blank" rel="noopener">.somedomain.com/</a>{foo}/{z}/{x}/{y}.png’, {foo: ‘bar’})</p>
+<h5 id="Options（选项）-2"><a href="#Options（选项）-2" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>minZoom：最小级别数<br> maxZoom：最大级别数<br> tileSize：切片尺寸（宽度和高度的像素值，假设切片是正方形的）<br> subdomains：服务的子域。可以传递一个字符串（其中每一个字母都是一个子域名称）或是一个字符串数组。<br> errorTileUrl：图片的URL给出加载错误的位置。<br> attribution：用来进行属性控制的字符串，描述了图层数据。<br> tms：如果此值为true，反转切片Y轴的编号（对于TMS服务需将此项打开）。<br> continuousWorld：如果设置为true，切片的坐标系不会被世界范围的宽度（-180度到180度）所覆盖，也不会被在世界范围的高度（-90度到90度）之内。你可以将此用在不反应真是世界的地图上（比如游戏、室内或照片的地图）。<br> noWrap：如果设置此项为true，则切片不会用重复填充来表示世界范围（经度-180到180之间）之外的地方。<br> zoomOffset：用此值来补偿URL中地图的缩放级别。<br> zoomReverse：如果此项为true，URL中的缩放级别会被反转（用最大到最小缩放级别来替代缩放级别）。<br> opacity：切片图层的透明度。<br> zIndex：切片图层明确的叠置顺序，默认此项不会被设置。<br> unloadInvisibleTiles：如果此项为true，在平移后所有看不到的切片都会被移除（用以更好地显示），在移动设备的webkit中默认是true，其他的默认为false。<br> updateWhenIdle：如果此项为false，在平移过程中新的切片将会载入，其他的在其后载入（用以更好地显示），在移动设备webKit中默认是true，其他默认false。<br> detectRetina：如果此项为true，并且用户是视网膜显示模式，会请求规定大小一般的四个切片和一个地区内一个更大的缩放级别来利用高分辨率。<br> reuseTiles：如果此项为true，在平移后不可见的切片被放入一个队列中，在新的切片开始可见时他们会被取回（而不是动态地创建一个新的）。这理论上可以降低内存使用率并可以去除在需要新的切片时预留内存。</p>
+<h5 id="Events（事件）-2"><a href="#Events（事件）-2" class="headerlink" title="Events（事件）"></a>Events（事件）</h5><p>loading：当切片图层开始加载切片时触发。<br> load：当切片图层加载完可见切片后触发。<br> tileload：在加载切片时触发。<br> tileunload：在切片被移除时触发（比如打开了unloadInvisibleTiles）。</p>
+<h5 id="Methods（方法）-2"><a href="#Methods（方法）-2" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo()：将图层加到地图上。<br> bringToFront()：将此切片图层放到所有切片图层之上。<br> bringToBack()：将此切片图层放到所有切片图层之下。<br> setOpacity()：改变切片图层的透明度。<br> setZIndex()：设置切片图层的叠放顺序。<br> redraw()：清除所有的切片并重新向服务端申请他们。<br> setUrl()：更新图层的URL模板并重绘他们。</p>
+<h3 id="L-TileLayer-WMS"><a href="#L-TileLayer-WMS" class="headerlink" title="L.TileLayer.WMS"></a>L.TileLayer.WMS</h3><p>用来显示地图上切片图层的WMS服务，继承自TileLayer。</p>
+<h5 id="Constructor（函数构造器）-2"><a href="#Constructor（函数构造器）-2" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.TileLayer.WMS()： 通过给定一个基本的WMS服务的URL和WMS参数或选项对象来实例化一个WMS切片图层对象。</p>
+<h5 id="Options（选项）-3"><a href="#Options（选项）-3" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>layers：WMS图层以逗号分隔符隔开的列表。<br> styles：WMS样式以逗号分隔符隔开的列表。<br> format：WMS图像格式（用“image/png”来显示透明图层）。<br> transparent：如果该项为true，WMS服务返回透明图片。<br> version：WMS服务的版本。</p>
+<h5 id="Methods（方法）-3"><a href="#Methods（方法）-3" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>setParams()：融合新的参数和在当前屏幕中重申请的切片（除非noRedraw设置为true）。</p>
+<h3 id="L-TileLayer-Canvas"><a href="#L-TileLayer-Canvas" class="headerlink" title="L.TileLayer.Canvas"></a>L.TileLayer.Canvas</h3><p>用来创建浏览器端绘制的切片图层的底层画布。</p>
+<h5 id="Constructor（函数构造器）-3"><a href="#Constructor（函数构造器）-3" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.TileLayer.Canvas()：通过一个具有选项的对象来实例化一个切片图层画布对象。</p>
+<h5 id="Options（选项）-4"><a href="#Options（选项）-4" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>async：在实例化时可以异步地绘制切片。在全部绘制完后，tileDrawn方法需要在每个切片上使用。</p>
+<h5 id="Methods（方法）-4"><a href="#Methods（方法）-4" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>drawTile()：在创建实例来绘制切片后你需要定义此方法；canvas是你可以绘制的实际上的切片画布，tilePoint反应了切片的数目，zoom是当前的缩放级别。<br> tileDrawn()：如果async选项被定义，在全部绘制完后，这个函数需要在每个切片上使用。canvas与画布对象相同，传递参数给drawTile。</p>
+<h3 id="L-ImageOverlay"><a href="#L-ImageOverlay" class="headerlink" title="L.ImageOverlay"></a>L.ImageOverlay</h3><p>用来在地图上规定范围内载入和显示单幅图像，继承自ILayer。</p>
+<h5 id="Constructor（函数构造器）-4"><a href="#Constructor（函数构造器）-4" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.ImageOverlay()：通过给定图像的URL和相关的地理范围来实例化一个图像叠加层对象。</p>
+<h5 id="Options（选项）-5"><a href="#Options（选项）-5" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>opacity：图像叠加层的透明度。</p>
+<h5 id="Methods（方法）-5"><a href="#Methods（方法）-5" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo()：将图像叠加层添加到地图上。<br> setOpacity()：设置叠加层的透明度。<br> bringToFront()：将叠加层置于所有层的顶层。<br> bringToBack()：将叠加层置于所有层的底层。</p>
+<h3 id="L-Path"><a href="#L-Path" class="headerlink" title="L.Path"></a>L.Path</h3><p>是包含选项和与适量叠加层共享常量的抽象类。不可以接使用。</p>
+<h5 id="Options（选项）-6"><a href="#Options（选项）-6" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>stroke：路径是否描边。设置为false时，多边形和圆的边界将不可见。<br> color：描边颜色。<br> weight：描边的像素级别的宽度。<br> opacity：描边透明度。<br> fill：路径是否填充颜色。设置为false时，多边形和圆的填充内容不可见。<br> fillColor：填充颜色。<br> fillOpacity：填充透明度。<br> dashArray：定义描边线型的字符串。这在画布上不起作用。（比如android 2）<br> clickable：如果此项为false，则矢量不产生鼠标事件并表现为底图的一部分。</p>
+<h5 id="Events（事件）-3"><a href="#Events（事件）-3" class="headerlink" title="Events（事件）"></a>Events（事件）</h5><p>click：用户点击或点触对象时触发。<br> dbclick：用户双击或连续两次点触对象时触发。<br> mousedown：当用户在对象上按下鼠标时触发。<br> mouseover：当鼠标置于对象上方时触发。<br> mouseout：当鼠标离开对象时触发。<br> contextmenu：当用户在对象上点击鼠标右键时触发，当此事件被监听时，会阻止弹出浏览器本身的右键菜单。<br> add：当路径被添加在地图上时触发。<br> remove：当路径在地图上移除时触发。</p>
+<h5 id="Methods（方法）-6"><a href="#Methods（方法）-6" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo()：将图层添加到地图上。<br> bindPopup()：将具有特定HTML内容的弹出框与点击路径绑定起来。<br> unbindPopup()：将之前的弹出框绑定解除。<br> openPopup()：打开之前通过bindPopup方法与路径上指定点或未指定情况下某一点绑定的弹出框。<br> closePopup()：如果与路径绑定的弹出框是打开状态的，则将其关闭。<br> setStyle()：更改给予对象选项对象的路径的表现形式。<br> getBounds()：返回路径的经纬度绑定信息。<br> bringToFront()：将此层移至所以路径层的最上层。<br> bringToBack()：将此层移至所以路径层的最底层。<br> redraw()：重绘图层。在更改了路径的坐标时比较有用。</p>
+<h5 id="Static-properties（静态属性）"><a href="#Static-properties（静态属性）" class="headerlink" title="Static properties（静态属性）"></a>Static properties（静态属性）</h5><p>SVG：如果用SVG来表达矢量，则此值为true（在当前大多数浏览器中是true）。<br> VML：如果VML用来表达矢量，则此值为true（在IE 6-8中适用）。<br> CANVAS：如果canvas用来表达矢量，则此值为true（在android 2中适用）。你也可以在页面中载入leaflet之前通过设置全局变量L_PREFER_CANVAS为true来强制使用此项——有时在表达上千上万相同的注记时会显著地提高性能，但目前由于漏洞导致移除图层非常慢。<br> CLIP_PADDING：决定地图视图周围裁剪区域延展的大小（与大小相关，比如0.5在每个方向上是屏幕的一半）。较小的值意味着在拖动地图时你会看到被裁剪路径的末端，较大值会降低绘制性能。</p>
+<h3 id="L-Polyline"><a href="#L-Polyline" class="headerlink" title="L.Polyline"></a>L.Polyline</h3><p>绘制叠加在地图上线段的类。继承自Path。用Map#addLayer来添加到地图上。</p>
+<h5 id="Constructor（函数构造器）-5"><a href="#Constructor（函数构造器）-5" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.Polyline()：通过给定的地理点组成的数组和任意的选项对象实例化一个线段。</p>
+<h5 id="Options（选项）-7"><a href="#Options（选项）-7" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>smoothFactor：决定每一个缩放级别上线段简化程度。如果大的话意味着更好的表现和看起来更光滑，小的话意味更准确地表示。<br> noClip：：不允许线段裁剪。</p>
+<h5 id="Methods（方法）-7"><a href="#Methods（方法）-7" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addLatLng()：向线段添加一个点。<br> setLatLngs()：用所给的地理点的数组替代线段上的点。<br> getLatLngs()：返回路径上的点组成的数组。<br> spliceLatLngs()：允许添加、移除和更改线段上的点。同Array#splice的语法一致。返回移除点组成的数组。<br> getBounds()：返回线段的经纬度边界。</p>
+<h3 id="L-MultiPolyline"><a href="#L-MultiPolyline" class="headerlink" title="L.MultiPolyline"></a>L.MultiPolyline</h3><p>是FeatureGroup的扩展，用来创建多线（在同一图层中由多个共享样式和弹出框的线段组成）。</p>
+<h5 id="Constructor（函数构造器）-6"><a href="#Constructor（函数构造器）-6" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.MultiPolyline()：通过给定的地理点的二维数组（其中每个一维数组表示一个线段）和选项对象来实例化一个多线对象。</p>
+<h3 id="L-Polygon"><a href="#L-Polygon" class="headerlink" title="L.Polygon"></a>L.Polygon</h3><p>在地图上绘制多边形的类。是Polyline的扩展。用Map#addLayer添加到地图上。<br> 创建多边形时经过的点没有传统意义上的起点和终点——最好将这种点指出来。</p>
+<h5 id="Constructor（函数构造器）-7"><a href="#Constructor（函数构造器）-7" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.Polygon()：通过给定地理点组成的数组和选项对象来实例化一个多边形（同线段构造方法相同）。你也可以通过传递经纬度的二维数组来创建一个带有洞的多边形，第一个经纬度数组表示外环，剩下的表示里面的洞。</p>
+<h3 id="L-MultiPolygon"><a href="#L-MultiPolygon" class="headerlink" title="L.MultiPolygon"></a>L.MultiPolygon</h3><p>是FeatureGroup的扩展，用来创建多多边形（在同一图层上由共享样式和弹出框的多个多边形组成）。</p>
+<h5 id="Constructor（函数构造器）-8"><a href="#Constructor（函数构造器）-8" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.MultiPolygon()：通过给定的经纬度的二维数组（每个一维数组表示一个多边形）和选项对象实例化多多边形（同多线相同）。</p>
+<h3 id="L-Rectangle"><a href="#L-Rectangle" class="headerlink" title="L.Rectangle"></a>L.Rectangle</h3><p>在地图上绘制矩形的类。是多边形的扩展。用Map#addLayer添加到地图上。</p>
+<h5 id="Constructor（函数构造器）-9"><a href="#Constructor（函数构造器）-9" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.Rectangle()：通过给定的地理边界和选项对象来实例化一个矩形对象。</p>
+<h5 id="Methods（方法）-8"><a href="#Methods（方法）-8" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>setBounds()：根据传递的边界重绘矩形。</p>
+<h3 id="L-Circle"><a href="#L-Circle" class="headerlink" title="L.Circle"></a>L.Circle</h3><p>在地图上绘制圆形叠加物的类。是Path的延伸。用Map#addLayer来添加到地图上。</p>
+<h5 id="Constructor（函数构造器）-10"><a href="#Constructor（函数构造器）-10" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.Circle()：通过给定的地理点和以米为单位的半径和选项对象来实例化一个圆对象。</p>
+<h5 id="Methods（方法）-9"><a href="#Methods（方法）-9" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>getLatLng()：返回圆当前的地理位置。<br> getRadius()：返回圆的半径，以米为单位。<br> setLatLng()：将圆放置到一个新的位置。<br> setRadius()：设置圆的半径，以米为单位。</p>
+<h3 id="L-CircleMarker"><a href="#L-CircleMarker" class="headerlink" title="L.CircleMarker"></a>L.CircleMarker</h3><p>是一个特定半径的圆，半径单位是像素。是Circle的延伸。通过Map#addLayer添加到地图上。</p>
+<h5 id="Constructor（函数构造器）-11"><a href="#Constructor（函数构造器）-11" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.CircleMarker()：通过给定的地理点和选项对象来实例化一个圆注记。默认的半径是10像素，并且可以通过在路径选项中传递一个半径参数来修改半径。</p>
+<h5 id="Methods（方法）-10"><a href="#Methods（方法）-10" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>setLatLng()：将圆注记放置于一个新的位置。<br> setRadius()：设置圆注记的半径，以像素为单位。</p>
+<h3 id="L-LayerGroup"><a href="#L-LayerGroup" class="headerlink" title="L.LayerGroup"></a>L.LayerGroup</h3><p>用来将几个图层组成一个组并作为一个图层来处理。如果你将其添加到地图上，组中任何图层的添加或移除都将使其同样在地图添加或删除。继承自ILayer接口。</p>
+<h5 id="Constructor（函数构造器）-12"><a href="#Constructor（函数构造器）-12" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.LayerGroup()：创建一个组，视情况指定一组初始的图层。</p>
+<h5 id="Methods（方法）-11"><a href="#Methods（方法）-11" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addTo()：将图组添加到地图上。<br> addLayer()：将给定的图层添加到组中。<br> removeLayer()：将给定的图层从组中移除：<br> clearLayer()：将组中的图层清空。<br> eachLayer()：遍历组中的图层，需选择一个符合情况的迭代函数。</p>
+<h3 id="L-FeatureGroup"><a href="#L-FeatureGroup" class="headerlink" title="L.FeatureGroup"></a>L.FeatureGroup</h3><p>是LayerGroup的扩展，但多了鼠标事件和共享的弹出框方法。继承自ILayer接口。</p>
+<h5 id="Constructor（函数构造器）-13"><a href="#Constructor（函数构造器）-13" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.FeatureGroup()：创建一个图组，视情况指定一组初始图层。</p>
+<h5 id="Methods（方法）-12"><a href="#Methods（方法）-12" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>具有LayerGroup所以的方法，还有下面多出的方法：<br> bindPopup()：在组中任意具有bindPopup方法的图层上绑定一个具有具体HTML内容的弹出框。<br> getBounds()：返回要素组的经纬度边界（通过他子图层的边界和坐标获得）。<br> setStyle()：设置组中具有setStyle方法的图层的路径选项。<br> bringToFront()：将图组置于顶层。<br> bringToBack()：将图组置于底层。</p>
+<h5 id="Events（事件）-4"><a href="#Events（事件）-4" class="headerlink" title="Events（事件）"></a>Events（事件）</h5><p>click：用户点击或触摸组是触发。<br> dbclick：用户双击或连续两次触摸组时触发。<br> mouseover：当鼠标置于组上方时触发。<br> mouseout：当鼠标离开组时触发。<br> mousemove：当鼠标经过组时触发。<br> contextmenu：当用户右击图层时触发。<br> layeradd：当图层被加入到组时触发。<br> layerremove：当图层从组中移除时触发。</p>
+<h3 id="L-GeoJSON"><a href="#L-GeoJSON" class="headerlink" title="L.GeoJSON"></a>L.GeoJSON</h3><p>展示一个GeoJSON的图层。允许你在地图上解析并显示GeoJSON数据。是FeatureGroup的延伸。<br> 由此创建的每个要素层获取要素与之关联的GeoJSON数据属性（因此你随后可以传递它的属性）。</p>
+<h5 id="Constructor（函数构造器）-14"><a href="#Constructor（函数构造器）-14" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.GeoJSON()：创建一个GeoJSON图层。可以任意地接受GeoJSON格式的对象和选项对象并显示在地图上（随后可以选择用addData方法添加）。</p>
+<h5 id="Options（选项）-8"><a href="#Options（选项）-8" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>pointToLayer()：在创建GeoJSON点图层时所用到的函数（如果不特意说明，会创建简单的注记）。<br> style()：在获取用来创建GeoJSON要素的矢量图层的样式选项时可以用到。<br> onEachFeature()：在每个创建的图层上都会调用此函数。对于向要素添加事件和弹出框比较有用。<br> filter()：用来决定是否显示某要素的函数。</p>
+<h5 id="Methods（方法）-13"><a href="#Methods（方法）-13" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>addData()：在图层中添加GeoJSON对象。<br> setStyle()：通过给定的样式函数改变GeoJSON矢量图层的样式。<br> resetStyle()：将矢量图层样式重置为初始GeoJSON样式，对于hover事件之后的重置比较有用。</p>
+<h5 id="Static-methods（静态方法）"><a href="#Static-methods（静态方法）" class="headerlink" title="Static methods（静态方法）"></a>Static methods（静态方法）</h5><p>geometryToLayer():通过给定的GeoJSON要素创建图层。<br> coordsToLatlng():通过在GeoJSON中表示点的两个数字组成（分别表示纬度和经度）的数组来创建经纬度对象。如果reverse设置为true，那么这两个数字被颠倒，表经度和纬度。<br> coordsToLatlngs():通过GeoJSON坐标坐标的数组创建多维数组。leversDeep指定具体的嵌套级别（0表示点的数组，1表示点数组的数组等等，0为默认值）。如果reverse设置为true，这些数组变为经度和纬度。</p>
+<h3 id="L-LatLng"><a href="#L-LatLng" class="headerlink" title="L.LatLng"></a>L.LatLng</h3><p>表示通过某一经度和纬度确定的地理上的点。<br> 所以leaflet接受的经纬度对象也接受他们的单一数组的形式（除非在其他方面表明不可以）。</p>
+<h5 id="Constructor（函数构造器）-15"><a href="#Constructor（函数构造器）-15" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.LatLng()：通过给定的纬度和经度创建表示地理点的对象。</p>
+<h5 id="Options（选项）-9"><a href="#Options（选项）-9" class="headerlink" title="Options（选项）"></a>Options（选项）</h5><p>lat：以度数表示的纬度。<br> lng：以度数表示的经度。</p>
+<h5 id="Methods（方法）-14"><a href="#Methods（方法）-14" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>distanceTo()：返回到通过半正矢公式计算的经纬度的距离（用米表示）。<br> equals()：如果给定的经纬度在相同的位置（具有较小的容差）则返回true。<br> toString()：返回点的描述信息（用来调试用）。<br> wrap()：返回在经度上left和right边界覆盖范围内（默认为0180到180）的心的经纬度对象。</p>
+<h5 id="Constants（常量）"><a href="#Constants（常量）" class="headerlink" title="Constants（常量）"></a>Constants（常量）</h5><p>DEG_TO_RAD:度数转换为弧度的乘子。<br> RAD_TO_DEG:弧度转换为度数的乘子。<br> MAX_MARGIN:判断相等的容差。</p>
+<h3 id="L-LatLngBounds"><a href="#L-LatLngBounds" class="headerlink" title="L.LatLngBounds"></a>L.LatLngBounds</h3><p>表示地图上一个矩形的区域。<br> 所有接受LatLngBounds对象的leaflet方法也接受他们简单数组的形式（除非另行说明）。</p>
+<h5 id="Constructor（函数构造器）-16"><a href="#Constructor（函数构造器）-16" class="headerlink" title="Constructor（函数构造器）"></a>Constructor（函数构造器）</h5><p>L.LatLngBounds(西南角点,东北角点)：通过定义矩形西南角点和东北角点来创建经纬度的矩形框。<br> L.LatLngBounds()：通过定义内在点来创建经纬度的矩形框。当用fitBounds把地图放到适合某些位置的缩放级别时是比较有用的。</p>
+<h5 id="Methods（方法）-15"><a href="#Methods（方法）-15" class="headerlink" title="Methods（方法）"></a>Methods（方法）</h5><p>extend()：将边界延伸到包含给定点和边界的范围。<br> geSouthWest()：返回边界的西南角点。<br> getNorthEast()：返回边界的东北角点。<br> getNorthWest()：返回边界的西北角点。<br> getSouthEast()：返回边界的东南角点。<br> getWest()：返回边界的西点。<br> getSouth()：返回边界的南角点。<br> getEast()：返回边界的东角点。<br> getNorth()：返回边界的北角点。<br> getCenter()：返回边界的中心点。<br> containg(otherBounds)：如果矩形框包含给定的边界则返回true。<br> contains(latlng)：如果矩形框包含给定的点则返回true。<br> intersects()：如果矩形框与给定的边界相交则返回true。<br> equals()：如果矩形框与给定的范围相等（在一定容差范围内）则返回true。<br> toBBoxString()：返回“西南经度，西南纬度，东北经度，东北纬度”形式的外接矩形的坐标。在向网络服务器提交请求返回地理数据时比较有用。<br> pad()：返回当前范围扩大一定百分比后的边界。<br> isValid()：如果边界可被初始化则返回true。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <div>
+      
+      <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------　　本文结束　<i class="fa fa-heart"></i>　感谢阅读　　-------</div>
+    
+</div>
+      
+      </div>
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/leaflet/"><i class="fa fa-tag"></i> leaflet</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/12/23/leaflet的使用/" rel="next" title="leaflet的使用">
+                  <i class="fa fa-chevron-left"></i> leaflet的使用
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Map"><span class="nav-number">1.</span> <span class="nav-text">L.Map</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（构造器）"><span class="nav-number">1.0.1.</span> <span class="nav-text">Constructor（构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）"><span class="nav-number">1.0.2.</span> <span class="nav-text">Options（选项）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Events（事件）"><span class="nav-number">2.</span> <span class="nav-text">Events（事件）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Methods-for-Modifying-Map-State（地图状态修改）"><span class="nav-number">2.1.</span> <span class="nav-text">Methods for Modifying Map State（地图状态修改）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods-for-Getting-Map-State（获取地图状态）"><span class="nav-number">2.1.1.</span> <span class="nav-text">Methods for Getting Map State（获取地图状态）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods-for-Layers-and-Controls（图层控制）"><span class="nav-number">2.1.2.</span> <span class="nav-text">Methods for Layers and Controls（图层控制）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Conversion-Methods（转换方法）"><span class="nav-number">2.1.3.</span> <span class="nav-text">Conversion Methods（转换方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Other-Methods（其他方法）"><span class="nav-number">2.1.4.</span> <span class="nav-text">Other Methods（其他方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Locate-options（位置选项）"><span class="nav-number">3.</span> <span class="nav-text">Locate options（位置选项）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Properties（属性）"><span class="nav-number">3.0.1.</span> <span class="nav-text">Properties（属性）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Map-Panes（地图窗口）"><span class="nav-number">3.0.2.</span> <span class="nav-text">Map Panes（地图窗口）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Marker"><span class="nav-number">4.</span> <span class="nav-text">L.Marker</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（构造函数）"><span class="nav-number">4.0.1.</span> <span class="nav-text">Constructor（构造函数）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-1"><span class="nav-number">4.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Events（事件）-1"><span class="nav-number">4.0.3.</span> <span class="nav-text">Events（事件）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）"><span class="nav-number">4.0.4.</span> <span class="nav-text">Methods（方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Interaction-handlers（互操作处理程序）"><span class="nav-number">4.0.5.</span> <span class="nav-text">Interaction handlers（互操作处理程序）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Popup"><span class="nav-number">5.</span> <span class="nav-text">L.Popup</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）"><span class="nav-number">5.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-1"><span class="nav-number">5.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-TileLayer"><span class="nav-number">6.</span> <span class="nav-text">L.TileLayer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-1"><span class="nav-number">6.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#URL-template（URL模板）"><span class="nav-number">6.0.2.</span> <span class="nav-text">URL template（URL模板）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-2"><span class="nav-number">6.0.3.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Events（事件）-2"><span class="nav-number">6.0.4.</span> <span class="nav-text">Events（事件）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-2"><span class="nav-number">6.0.5.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-TileLayer-WMS"><span class="nav-number">7.</span> <span class="nav-text">L.TileLayer.WMS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-2"><span class="nav-number">7.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-3"><span class="nav-number">7.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-3"><span class="nav-number">7.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-TileLayer-Canvas"><span class="nav-number">8.</span> <span class="nav-text">L.TileLayer.Canvas</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-3"><span class="nav-number">8.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-4"><span class="nav-number">8.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-4"><span class="nav-number">8.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-ImageOverlay"><span class="nav-number">9.</span> <span class="nav-text">L.ImageOverlay</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-4"><span class="nav-number">9.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-5"><span class="nav-number">9.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-5"><span class="nav-number">9.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Path"><span class="nav-number">10.</span> <span class="nav-text">L.Path</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-6"><span class="nav-number">10.0.1.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Events（事件）-3"><span class="nav-number">10.0.2.</span> <span class="nav-text">Events（事件）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-6"><span class="nav-number">10.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Static-properties（静态属性）"><span class="nav-number">10.0.4.</span> <span class="nav-text">Static properties（静态属性）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Polyline"><span class="nav-number">11.</span> <span class="nav-text">L.Polyline</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-5"><span class="nav-number">11.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-7"><span class="nav-number">11.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-7"><span class="nav-number">11.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-MultiPolyline"><span class="nav-number">12.</span> <span class="nav-text">L.MultiPolyline</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-6"><span class="nav-number">12.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Polygon"><span class="nav-number">13.</span> <span class="nav-text">L.Polygon</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-7"><span class="nav-number">13.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-MultiPolygon"><span class="nav-number">14.</span> <span class="nav-text">L.MultiPolygon</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-8"><span class="nav-number">14.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Rectangle"><span class="nav-number">15.</span> <span class="nav-text">L.Rectangle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-9"><span class="nav-number">15.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-8"><span class="nav-number">15.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-Circle"><span class="nav-number">16.</span> <span class="nav-text">L.Circle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-10"><span class="nav-number">16.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-9"><span class="nav-number">16.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-CircleMarker"><span class="nav-number">17.</span> <span class="nav-text">L.CircleMarker</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-11"><span class="nav-number">17.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-10"><span class="nav-number">17.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-LayerGroup"><span class="nav-number">18.</span> <span class="nav-text">L.LayerGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-12"><span class="nav-number">18.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-11"><span class="nav-number">18.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-FeatureGroup"><span class="nav-number">19.</span> <span class="nav-text">L.FeatureGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-13"><span class="nav-number">19.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-12"><span class="nav-number">19.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Events（事件）-4"><span class="nav-number">19.0.3.</span> <span class="nav-text">Events（事件）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-GeoJSON"><span class="nav-number">20.</span> <span class="nav-text">L.GeoJSON</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-14"><span class="nav-number">20.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-8"><span class="nav-number">20.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-13"><span class="nav-number">20.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Static-methods（静态方法）"><span class="nav-number">20.0.4.</span> <span class="nav-text">Static methods（静态方法）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-LatLng"><span class="nav-number">21.</span> <span class="nav-text">L.LatLng</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-15"><span class="nav-number">21.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Options（选项）-9"><span class="nav-number">21.0.2.</span> <span class="nav-text">Options（选项）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-14"><span class="nav-number">21.0.3.</span> <span class="nav-text">Methods（方法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Constants（常量）"><span class="nav-number">21.0.4.</span> <span class="nav-text">Constants（常量）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L-LatLngBounds"><span class="nav-number">22.</span> <span class="nav-text">L.LatLngBounds</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor（函数构造器）-16"><span class="nav-number">22.0.1.</span> <span class="nav-text">Constructor（函数构造器）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Methods（方法）-15"><span class="nav-number">22.0.2.</span> <span class="nav-text">Methods（方法）</span></a></li></ol></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cc.jpg"
+      alt="shh33">
+  <p class="site-author-name" itemprop="name">shh33</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/shh33" title="GitHub &rarr; https://github.com/shh33" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style="text-align:center">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">shh33</span>
+</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div style="text-align:center">
+	  <span id="busuanzi_container_site_uv">Total visited <span id="busuanzi_value_site_uv"></span> times</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

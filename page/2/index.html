@@ -255,6 +255,146 @@
     -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
   >
 
+    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/08/mongoose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shh33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cc.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="shh33">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/08/mongoose/" class="post-title-link" itemprop="url">mongoose</a>
+          
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-08 15:01:00" itemprop="dateCreated datePublished" datetime="2019-09-08T15:01:00+08:00">2019-09-08</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node/" itemprop="url" rel="index"><span itemprop="name">Node</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="mongoose"><a href="#mongoose" class="headerlink" title="mongoose"></a>mongoose</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mongoose</span><br></pre></td></tr></table></figure>
+
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Schema = mongoose.Schema</span><br></pre></td></tr></table></figure>
+
+<p>##连接数据库</p>
+<ol>
+<li>指定连接的数据库不需要存在，当你插入第一条数据之后就会自动被创建出来</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongoose.connect(<span class="string">'mongodb://localhost/itcast'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>##设计文档结构（表结构）</p>
+<blockquote>
+<ol>
+<li>字段名称就是表结构中的属性名称</li>
+<li>约束的目的是为了保证数据的完整性，不要有脏数据</li>
+</ol>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> userSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  username: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span> <span class="comment">// 必须有</span></span><br><span class="line">  &#125;,</span><br><span class="line">  password: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  email: &#123;</span><br><span class="line">    type: <span class="built_in">String</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>##将文档结构发布为模型</p>
+<blockquote>
+<p>mongoose.model 方法就是用来将一个架构发布为 model<br>第一个参数：传入一个大写名词单数字符串用来表示你的数据库名称<br>                       mongoose 会自动将大写名词的字符串生成 小写复数 的集合名称<br>                       例如这里的 User 最终会变为 users 集合名称<br>第二个参数：架构 Schema<br>返回值：<strong>模型构造函数</strong></p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = mongoose.model(<span class="string">'User'</span>, userSchema)</span><br></pre></td></tr></table></figure>
+
+<p>##当我们有了模型构造函数之后，就可以使用这个构造函数对 users 集合中的数据为所欲为了（增删改查）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// **********************</span></span><br><span class="line"><span class="comment">// #region /新增数据</span></span><br><span class="line"><span class="comment">// **********************</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> admin = <span class="keyword">new</span> User(&#123;</span><br><span class="line">    username: <span class="string">'zs'</span>,</span><br><span class="line">    password: <span class="string">'123456'</span>,</span><br><span class="line">    email: <span class="string">'admin@admin.com'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">admin.save(<span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'保存失败'</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'保存成功'</span>)</span><br><span class="line">        <span class="built_in">console</span>.log(ret)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// **********************</span></span><br><span class="line"><span class="comment">// #region /查询数据</span></span><br><span class="line"><span class="comment">// **********************</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//查找所有</span></span><br><span class="line"> User.find(<span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'查询失败'</span>)</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(ret)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//按条件查询所有</span></span><br><span class="line"> User.find(&#123;</span><br><span class="line">   username: <span class="string">'zs'</span></span><br><span class="line"> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'查询失败'</span>)</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(ret)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//条件查询</span></span><br><span class="line"> User.findOne(&#123;</span><br><span class="line">   username: <span class="string">'zs'</span>,</span><br><span class="line">   password: <span class="string">'12345678'</span></span><br><span class="line"> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'查询失败'</span>)</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(ret)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据id查询</span></span><br><span class="line">User.findById()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// **********************</span></span><br><span class="line"><span class="comment">// #region /删除数据</span></span><br><span class="line"><span class="comment">// **********************</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//移除所有符合条件的</span></span><br><span class="line"> User.remove(&#123;</span><br><span class="line">   username: <span class="string">'zs'</span></span><br><span class="line"> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (err) &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'删除失败'</span>)</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'删除成功'</span>)</span><br><span class="line">     <span class="built_in">console</span>.log(ret)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据ID删除</span></span><br><span class="line">User.findByIdAndRemove()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// **********************</span></span><br><span class="line"><span class="comment">// #region /更新数据</span></span><br><span class="line"><span class="comment">// **********************</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//根据id更新一个</span></span><br><span class="line">User.findByIdAndUpdate(<span class="string">'5a001b23d219eb00c8581184'</span>, &#123;</span><br><span class="line">    password: <span class="string">'123'</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err, ret</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'更新失败'</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'更新成功'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据指定条件更新一个</span></span><br><span class="line">User.findOneAndUpdate()</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据条件更新所有</span></span><br><span class="line">User.update()</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+
+  <div class="post-block" 
+  style="
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:50px 20px 70px 20px;
+    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
+  >
+
     <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/07/mogodb数据库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -544,6 +684,121 @@
     -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
   >
 
+    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/04/Promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="shh33">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cc.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="shh33">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/04/Promise/" class="post-title-link" itemprop="url">Promise</a>
+          
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-04 20:17:13" itemprop="dateCreated datePublished" datetime="2019-09-04T20:17:13+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Promise/" itemprop="url" rel="index"><span itemprop="name">Promise</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/images/1567996038628.png" alt="1567996038628"></p>
+<h1 id="Promise是一个构造函数"><a href="#Promise是一个构造函数" class="headerlink" title="Promise是一个构造函数"></a>Promise是一个构造函数</h1><p><img src="/images/1567997039617.png" alt="1567997039617"></p>
+<h2 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/a.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/b.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p3 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/c.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">p1</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="comment">// 当 p1 读取成功的时候</span></span><br><span class="line">    <span class="comment">// 当前函数中 return 的结果就可以在后面的 then 中 function 接收到</span></span><br><span class="line">    <span class="comment">// 当你 return 123 后面就接收到 123</span></span><br><span class="line">    <span class="comment">//      return 'hello' 后面就接收到 'hello'</span></span><br><span class="line">    <span class="comment">//      没有 return 后面收到的就是 undefined</span></span><br><span class="line">    <span class="comment">// 上面那些 return 的数据没什么卵用</span></span><br><span class="line">    <span class="comment">// 真正有用的是：我们可以 return 一个 Promise 对象</span></span><br><span class="line">    <span class="comment">// 当 return 一个 Promise 对象的时候，后续的 then 中的 方法的第一个参数会作为 p2 的 resolve</span></span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    <span class="keyword">return</span> p2</span><br><span class="line">  &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'读取文件失败了'</span>, err)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> p3</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'end'</span>)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>封装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pReadFile</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    fs.readFile(filePath, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        reject(err)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pReadFile(<span class="string">'./data/a.txt'</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> pReadFile(<span class="string">'./data/b.txt'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> pReadFile(<span class="string">'./data/c.txt'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="promise应用场景-调用多个接口"><a href="#promise应用场景-调用多个接口" class="headerlink" title="promise应用场景 调用多个接口"></a>promise应用场景 调用多个接口</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"user_form"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"tpl"</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>用户名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; user.username &#125;&#125;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; user.age &#125;&#125;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>职业<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">""</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; each jobs &#125;&#125; &#123;&#123; <span class="keyword">if</span> user.job === $value.id &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; $value.id &#125;&#125;"</span> <span class="attr">selected</span>&gt;</span>&#123;&#123; $value.name &#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; <span class="keyword">else</span> &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; $value.id &#125;&#125;"</span>&gt;</span>&#123;&#123; $value.name &#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; /<span class="keyword">if</span> &#125;&#125; &#123;&#123; /each &#125;&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/art-template/lib/template-web.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/jquery/dist/jquery.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 用户表</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  其中一个接口获取用户数据</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  职业：2</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 职业信息表</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  其中一个接口获取所有的职业信息</span></span></span><br><span class="line">      </span><br><span class="line"><span class="javascript">    <span class="comment">//普通的方式</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">get</span>('http://127.0.0.1:3000/users/4', function (userData) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">get</span>('http://127.0.0.1:3000/jobs', function (jobsData) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, &#123;</span></span><br><span class="line"><span class="javascript">          user: <span class="built_in">JSON</span>.parse(userData),</span></span><br><span class="line"><span class="javascript">          jobs: <span class="built_in">JSON</span>.parse(jobsData)</span></span><br><span class="line">        &#125;)</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(htmlStr)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"><span class="javascript">    <span class="comment">// jQurey中封装的promise</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = &#123;&#125;</span></span><br><span class="line"><span class="javascript">    $.<span class="keyword">get</span>('http://127.0.0.1:3000/users/4')</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">user</span>) </span>&#123;</span></span><br><span class="line">        data.user = user</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> $.<span class="keyword">get</span>('http://127.0.0.1:3000/jobs')</span></span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">jobs</span>) </span>&#123;</span></span><br><span class="line">        data.jobs = jobs</span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, data)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装的promise方法</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = &#123;&#125;</span></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">user</span>) </span>&#123;</span></span><br><span class="line">        data.user = user</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> pGet(<span class="string">'http://127.0.0.1:3000/jobs'</span>)</span></span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">jobs</span>) </span>&#123;</span></span><br><span class="line">        data.jobs = jobs</span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, data)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(data)</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(data)</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">pGet</span>(<span class="params">url, callback</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest()</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 当请求加载成功之后要调用指定的函数</span></span></span><br><span class="line"><span class="javascript">        oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 我现在需要得到这里的 oReq.responseText</span></span></span><br><span class="line"><span class="javascript">          callback &amp;&amp; callback(<span class="built_in">JSON</span>.parse(oReq.responseText))</span></span><br><span class="line"><span class="javascript">          resolve(<span class="built_in">JSON</span>.parse(oReq.responseText))</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        oReq.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span></span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        oReq.open(<span class="string">"get"</span>, url, <span class="literal">true</span>)</span></span><br><span class="line">        oReq.send()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 这个 get 是 callback 方式的 API</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 可以使用 Promise 来解决这个问题</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url, callback</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest()</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 当请求加载成功之后要调用指定的函数</span></span></span><br><span class="line"><span class="javascript">      oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 我现在需要得到这里的 oReq.responseText</span></span></span><br><span class="line">        callback(oReq.responseText)</span><br><span class="line">      &#125;</span><br><span class="line"><span class="javascript">      oReq.open(<span class="string">"get"</span>, url, <span class="literal">true</span>)</span></span><br><span class="line">      oReq.send()</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+
+  <div class="post-block" 
+  style="
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding:50px 20px 70px 20px;
+    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
+  >
+
     <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/04/npm命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -675,121 +930,6 @@
 <li>锁定版本</li>
 </ol>
 </blockquote>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-      
-
-  <article class="post" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-
-  <div class="post-block" 
-  style="
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding:50px 20px 70px 20px;
-    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
-    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
-  >
-
-    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/09/04/Promise/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shh33">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/cc.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="shh33">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/04/Promise/" class="post-title-link" itemprop="url">Promise</a>
-          
-        </h1>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-04 20:17:13" itemprop="dateCreated datePublished" datetime="2019-09-04T20:17:13+08:00">2019-09-04</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Promise/" itemprop="url" rel="index"><span itemprop="name">Promise</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/images/1567996038628.png" alt="1567996038628"></p>
-<h1 id="Promise是一个构造函数"><a href="#Promise是一个构造函数" class="headerlink" title="Promise是一个构造函数"></a>Promise是一个构造函数</h1><p><img src="/images/1567997039617.png" alt="1567997039617"></p>
-<h2 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/a.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/b.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p3 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  fs.readFile(<span class="string">'./data/c.txt'</span>, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      reject(err)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resolve(data)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">p1</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="comment">// 当 p1 读取成功的时候</span></span><br><span class="line">    <span class="comment">// 当前函数中 return 的结果就可以在后面的 then 中 function 接收到</span></span><br><span class="line">    <span class="comment">// 当你 return 123 后面就接收到 123</span></span><br><span class="line">    <span class="comment">//      return 'hello' 后面就接收到 'hello'</span></span><br><span class="line">    <span class="comment">//      没有 return 后面收到的就是 undefined</span></span><br><span class="line">    <span class="comment">// 上面那些 return 的数据没什么卵用</span></span><br><span class="line">    <span class="comment">// 真正有用的是：我们可以 return 一个 Promise 对象</span></span><br><span class="line">    <span class="comment">// 当 return 一个 Promise 对象的时候，后续的 then 中的 方法的第一个参数会作为 p2 的 resolve</span></span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    <span class="keyword">return</span> p2</span><br><span class="line">  &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'读取文件失败了'</span>, err)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> p3</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'end'</span>)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>封装</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pReadFile</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    fs.readFile(filePath, <span class="string">'utf8'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        reject(err)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(data)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pReadFile(<span class="string">'./data/a.txt'</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> pReadFile(<span class="string">'./data/b.txt'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">    <span class="keyword">return</span> pReadFile(<span class="string">'./data/c.txt'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="promise应用场景-调用多个接口"><a href="#promise应用场景-调用多个接口" class="headerlink" title="promise应用场景 调用多个接口"></a>promise应用场景 调用多个接口</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"user_form"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/template"</span> <span class="attr">id</span>=<span class="string">"tpl"</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>用户名<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; user.username &#125;&#125;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>年龄<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; user.age &#125;&#125;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">""</span>&gt;</span>职业<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">""</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; each jobs &#125;&#125; &#123;&#123; <span class="keyword">if</span> user.job === $value.id &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; $value.id &#125;&#125;"</span> <span class="attr">selected</span>&gt;</span>&#123;&#123; $value.name &#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; <span class="keyword">else</span> &#125;&#125;</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"&#123;&#123; $value.id &#125;&#125;"</span>&gt;</span>&#123;&#123; $value.name &#125;&#125;<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="javascript">        &#123;&#123; /<span class="keyword">if</span> &#125;&#125; &#123;&#123; /each &#125;&#125;</span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/art-template/lib/template-web.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"node_modules/jquery/dist/jquery.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 用户表</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  其中一个接口获取用户数据</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  职业：2</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 职业信息表</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//  其中一个接口获取所有的职业信息</span></span></span><br><span class="line">      </span><br><span class="line"><span class="javascript">    <span class="comment">//普通的方式</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">get</span>('http://127.0.0.1:3000/users/4', function (userData) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">get</span>('http://127.0.0.1:3000/jobs', function (jobsData) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, &#123;</span></span><br><span class="line"><span class="javascript">          user: <span class="built_in">JSON</span>.parse(userData),</span></span><br><span class="line"><span class="javascript">          jobs: <span class="built_in">JSON</span>.parse(jobsData)</span></span><br><span class="line">        &#125;)</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(htmlStr)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"><span class="javascript">    <span class="comment">// jQurey中封装的promise</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = &#123;&#125;</span></span><br><span class="line"><span class="javascript">    $.<span class="keyword">get</span>('http://127.0.0.1:3000/users/4')</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">user</span>) </span>&#123;</span></span><br><span class="line">        data.user = user</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> $.<span class="keyword">get</span>('http://127.0.0.1:3000/jobs')</span></span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">jobs</span>) </span>&#123;</span></span><br><span class="line">        data.jobs = jobs</span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, data)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 封装的promise方法</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> data = &#123;&#125;</span></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">user</span>) </span>&#123;</span></span><br><span class="line">        data.user = user</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> pGet(<span class="string">'http://127.0.0.1:3000/jobs'</span>)</span></span><br><span class="line">      &#125;)</span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">jobs</span>) </span>&#123;</span></span><br><span class="line">        data.jobs = jobs</span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> htmlStr = template(<span class="string">'tpl'</span>, data)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.querySelector(<span class="string">'#user_form'</span>).innerHTML = htmlStr</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(data)</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    pGet(<span class="string">'http://127.0.0.1:3000/users/4'</span>)</span></span><br><span class="line"><span class="javascript">      .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(data)</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">pGet</span>(<span class="params">url, callback</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest()</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 当请求加载成功之后要调用指定的函数</span></span></span><br><span class="line"><span class="javascript">        oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="comment">// 我现在需要得到这里的 oReq.responseText</span></span></span><br><span class="line"><span class="javascript">          callback &amp;&amp; callback(<span class="built_in">JSON</span>.parse(oReq.responseText))</span></span><br><span class="line"><span class="javascript">          resolve(<span class="built_in">JSON</span>.parse(oReq.responseText))</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        oReq.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span></span><br><span class="line">          reject(err)</span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        oReq.open(<span class="string">"get"</span>, url, <span class="literal">true</span>)</span></span><br><span class="line">        oReq.send()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="comment">// 这个 get 是 callback 方式的 API</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">// 可以使用 Promise 来解决这个问题</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">url, callback</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">var</span> oReq = <span class="keyword">new</span> XMLHttpRequest()</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 当请求加载成功之后要调用指定的函数</span></span></span><br><span class="line"><span class="javascript">      oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="comment">// 我现在需要得到这里的 oReq.responseText</span></span></span><br><span class="line">        callback(oReq.responseText)</span><br><span class="line">      &#125;</span><br><span class="line"><span class="javascript">      oReq.open(<span class="string">"get"</span>, url, <span class="literal">true</span>)</span></span><br><span class="line">      oReq.send()</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
 
         
       
@@ -1740,142 +1880,6 @@
     -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
   >
 
-    <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/08/28/ES6 中的对象代理（数据保护）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shh33">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/cc.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="shh33">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/28/ES6 中的对象代理（数据保护）/" class="post-title-link" itemprop="url">ES6中的代理对象</a>
-          
-        </h1>
-
-        <div class="post-meta">
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-28 16:59:00" itemprop="dateCreated datePublished" datetime="2019-08-28T16:59:00+08:00">2019-08-28</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-23 16:04:39" itemprop="dateModified" datetime="2019-12-23T16:04:39+08:00">2019-12-23</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ES6/" itemprop="url" rel="index"><span itemprop="name">ES6</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">​      <span class="keyword">var</span> data = &#123;</span><br><span class="line">​      name: <span class="string">'es3'</span>,</span><br><span class="line">​      sex: <span class="string">'male'</span>,</span><br><span class="line">​      age: <span class="number">15</span></span><br><span class="line">​    &#125;</span><br><span class="line">​    <span class="keyword">this</span>.get = <span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">​      <span class="keyword">return</span> data[key]</span><br><span class="line">​    &#125;</span><br><span class="line">​    <span class="keyword">this</span>.set = <span class="function"><span class="keyword">function</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">​      <span class="keyword">if</span> (key !== <span class="string">'sex'</span>) &#123;</span><br><span class="line">​        data[key] = value</span><br><span class="line">​      &#125;</span><br><span class="line">​    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>//声明一个实例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</span><br></pre></td></tr></table></figure>
-
-<p>  // 读取</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.table(&#123;<span class="attr">name</span>: person.get(<span class="string">'name'</span>), <span class="attr">sex</span>: person.get(<span class="string">'sex'</span>), <span class="attr">age</span>:person.get(<span class="string">'age'</span>)&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/1566981354107.png" alt="1566981354107"></p>
-<p>  // 修改</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">person.set(<span class="string">'name'</span>, <span class="string">'es3-cname'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.table(&#123;<span class="attr">name</span>: person.get(<span class="string">'name'</span>), <span class="attr">sex</span>: person.get(<span class="string">'sex'</span>), <span class="attr">age</span>:person.get(<span class="string">'age'</span>)&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/1566981519105.png" alt="1566981519105"></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">person.set(<span class="string">'sex'</span>, <span class="string">'female'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.table(&#123;<span class="attr">name</span>: person.get(<span class="string">'name'</span>), <span class="attr">sex</span>: person.get(<span class="string">'sex'</span>), <span class="attr">age</span>: person.get(<span class="string">'age'</span>)&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/1566981533339.png" alt="1566981533339"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ES5"><a href="#ES5" class="headerlink" title="ES5"></a>ES5</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> Person = &#123;</span><br><span class="line">​    name: <span class="string">'es5'</span>, </span><br><span class="line">​    age: <span class="number">15</span></span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(Person, <span class="string">'sex'</span>, &#123;</span><br><span class="line">​    writable: <span class="literal">false</span>,</span><br><span class="line">​    value: <span class="string">'male'</span></span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.table(&#123;</span><br><span class="line">​    name: Person.name,</span><br><span class="line">​    age: Person.age,</span><br><span class="line">​    sex: Person.sex</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">  Person.name = <span class="string">'es5-cname'</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.table(&#123;</span><br><span class="line">​    name: Person.name,</span><br><span class="line">​    age: Person.age,</span><br><span class="line">​    sex: Person.sex</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">​    Person.sex = <span class="string">'female'</span>;</span><br><span class="line">​    <span class="built_in">console</span>.table(&#123;</span><br><span class="line">​      name: Person.name,</span><br><span class="line">​      age: Person.age,</span><br><span class="line">​      sex: Person.sex&#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">​    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/1566981878277.png" alt="1566981878277"></p>
-<p><em>// ES6</em></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> Person = &#123;</span><br><span class="line">​    name: <span class="string">'es6'</span>,</span><br><span class="line">​    sex: <span class="string">'male'</span>,</span><br><span class="line">​    age: <span class="number">15</span></span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> person = <span class="keyword">new</span> <span class="built_in">Proxy</span>(Person, &#123;</span><br><span class="line">  </span><br><span class="line">​    <span class="keyword">get</span>(target, key) &#123;</span><br><span class="line">​      <span class="keyword">return</span> target[key]</span><br><span class="line">​    &#125;,</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">set</span>(target,key,value)&#123;</span><br><span class="line">​      <span class="keyword">if</span>(key!==<span class="string">'sex'</span>)&#123;</span><br><span class="line">​        target[key]=value;</span><br><span class="line">​      &#125;</span><br><span class="line">​    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.table(&#123;</span><br><span class="line">​    name:person.name,</span><br><span class="line">​    sex:person.sex,</span><br><span class="line">​    age:person.age</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">​    person.sex=<span class="string">'female'</span>;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">​    <span class="built_in">console</span>.log(e);</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/1566982135689.png" alt="1566982135689"></p>
-<blockquote>
-<ol>
-<li>Proxy是代理</li>
-</ol>
-</blockquote>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-      
-
-  <article class="post" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-
-  <div class="post-block" 
-  style="
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding:50px 20px 70px 20px;
-    -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
-    -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);"
-  >
-
     <link itemprop="mainEntityOfPage" href="https://shh33.github.io/2019/08/28/ES6 中的默认参数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2043,7 +2047,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
