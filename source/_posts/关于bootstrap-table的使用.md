@@ -12,6 +12,8 @@ top:
 > 2. 注意jQuery版本会导致图标不显示的问题
 > 3. 中文table要放在bootstrap-tablew.js文件下面
 
+<!--more-->
+
 ```html
 <!DOCTYPE html>
 <html lang="en">

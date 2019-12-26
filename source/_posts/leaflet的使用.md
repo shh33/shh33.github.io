@@ -8,8 +8,6 @@ password:
 top:
 ---
 
-
-
 1. 需要引入几个必要的文件
 
 ```javascript
@@ -18,6 +16,8 @@ top:
 <script src="/js/leaflet-src.js"></script>
 <script src="/js/leaflet.label-src.js"></script>
 ```
+
+<!--more-->
 
 2. 创建一个容器
 
@@ -71,5 +71,89 @@ top:
         });
         L.marker([lat,lng], {icon: textIcon}).addTo(pointLayers);
     }
+	//添加点
+	function addDotted(){
+        var chaosIcon= L.icon({
+					iconUrl: "./images/carData.png",
+					iconSize: [30, 30],
+					iconAnchor: [22, 15],
+					popupAnchor: [0, -15]
+				});
+				var personData="<div class='personNumber'>测试人员<span class='onlineType'>行驶</span></div>";
+				var pointFeature = new L.marker([lat,lng], { icon: chaosIcon, riseOnHover: true}).bindLabel(personData,{noHide:true});
+				pointFeature.addTo(pointLayers);
+    }
+	//添加线(lineArr==>[[lat,lng],[lat,lng]])
+	var pointFeature = new L.polyline(lineArr,{color:'blue',opacity:'0.8',weight:'3'}).addTo(pointLayers);
+	//添加轨迹线（data==>[[lat,lng],[lat,lng]]）
+    function addLine(data){
+        if(data.length>1){
+            pointLayers.clearLayers();
+            (function (){
+                var pointFeature = new L.polyline(data,{color:'blue',opacity:'0.8',weight:'3'}).addTo(pointLayers);
+                console.log(data)
+            })()
+        }
+    }
+	//1.添加点侧面提示框和气泡弹窗
+    function setWaterLayerData(json) {
+    if(json.row){
+        var Length=json.row.length;
+    }
+    waterALLMarkers=[];
+    //removeLayers();
+    for (var i = 0; i < Length; i++) {
+        //当前测点坐标
+        (function(index){
+            if(json.row[index].longitudeName!=""&&json.row[index].latitudeName!=""&&json.row[index].latitudeName!=null){
+                var Lon = json.row[index].longitudeName;
+                var Lat = json.row[index].latitudeName;
+                //默认水位点图标
+                var image = _ctx+'/styles/map/images/map/water/w1.png';
+                //创建图标对象
+                var waterIcon = L.icon({
+                    iconUrl: image,
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10],
+                    popupAnchor: [0, -10]
+                });
+                var popText =  json.row[index].stationName;
+                //设置数据点
+                var pointFeature = new L.marker([Lat, Lon], { icon: waterIcon, riseOnHover: true, title: json.row[index].stationName }).bindTooltip(popText, { permanent: true, offset : [15,0], direction : "right", className: 'swLayer_tooltip'}).openTooltip();
+                var bgurl = _ctx + '/styles/mark-popup-bg.png';
+                var htmlText="<div style='width:190px;height:125px;padding-top:5px;position:relative;' class='mapWaterLayer level-okLevel'>" +
+                    "<span onclick=\"showLayer('"+json.row[index].stationCode+"','"+json.row[index].stationName+"','水质')\" style='cursor:pointer;position:absolute;padding:2px 6px;right:4px;bottom:5px;color:#fff;background:#00689c;font-size:12px;'>详情</span>" +
+                    "<p style='font-size: 14px'>"+json.row[index].stationName+"</p><p style='font-size: 14px'>导电率: "+json.row[index].conductivity+" μs/cm</p><p style='font-size: 14px'>浊度: "+json.row[index].turbidity+" ntu</p><p style='font-size: 14px'>温度: "+json.row[index].temparature+" ℃</p><p style='font-size: 14px'>溶解氧: "+json.row[index].do+" mg/l</p><p style='font-size: 14px'>PH: "+json.row[index].pH+" ph</p>" +
+                    "</div>";
+                var popup = L.popup({ maxWidth: 750, maxHeight: 400 })
+                    .setLatLng([Lat, Lon])
+                    .setContent(htmlText);
+                pointFeature.bindPopup(popup);
+                // waterALLMarkers.push(popup)
+                //将数据点添加到相应图层
+                pointFeature.on("mouseover",function(){
+                    pointFeature.openPopup();
+                });
+                pointFeature.on("dbclick",function(){
+                    pointFeature.closePopup();
+                });
+                _szLayer.addLayer(pointFeature);
+            }
+        })(i)
+    }
+    if(waterALLMarkers.length>0){
+        _map.openPopup(waterALLMarkers[0]);
+        setCenter(json.row[0].latitudeName,json.row[0].longitudeName)
+    }
+}
+              
 ```
+
+> 添加点侧面提示框
+>
+> ![1577328912964](/images/1577328912964.png)
+
+> 添加气泡弹窗
+>
+> ![1577328999195](/images/1577328999195.png)
 
