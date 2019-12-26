@@ -8,7 +8,7 @@ password:
 top:
 ---
 
-## 关于vue-router的一下知识点总结
+##### 关于vue-router相关知识点总结
 
 <!--more-->
 

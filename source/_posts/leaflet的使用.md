@@ -12,9 +12,17 @@ top:
 
 ```javascript
 <link rel="stylesheet" href="/css/leaflet.css">
+<link rel="stylesheet" href="/css/leaflet.draw.css">
+<link rel="stylesheet" href="/css/leaflet.label.css">
 <script src="/js/jquery-1.11.3.js"></script>
 <script src="/js/leaflet-src.js"></script>
 <script src="/js/leaflet.label-src.js"></script>
+//画点线
+<script src="/js/leaflet.draw.js"></script>
+<script src="/js/leaflet.polylineDecorator.js"></script>
+<script src="/js/L.Control.MousePosition.js"></script>
+<script src="/js/leaflet.markercluster-src.js"></script>
+<script src="/js/bannerCopy.js"></script>
 ```
 
 <!--more-->
@@ -95,6 +103,9 @@ top:
             })()
         }
     }
+```
+
+```javascript
 	//1.添加点侧面提示框和气泡弹窗
     function setWaterLayerData(json) {
     if(json.row){
